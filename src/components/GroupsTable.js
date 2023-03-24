@@ -16,8 +16,8 @@ export function GroupsTable(props) {
           return (
             <tr key={group.id}>
               <td>{group.id}</td>
-              <td>{group.quotas}</td>
-              <td>{group.room}</td>
+              <td>{group.quotasLeft}</td>
+              <td>{group.classroom}</td>
               <td>{group.hours}</td>
             </tr>
           );

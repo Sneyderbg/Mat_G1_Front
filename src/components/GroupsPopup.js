@@ -9,9 +9,18 @@ export function GroupsPopup(props) {
           Grupos y horarios disponibles para esta materia
         </div>
         <div id="txtcourse" className="txtcourse">
-          [{props.data.course.id}] {props.data.course.name}
+          {props.data.hasOwnProperty("id")
+            ? "[" + props.data.id + "] " + props.data.name
+            : props.data.hasOwnProperty("error")
+            ? props.data.error
+            : "Cargando información..."}
         </div>
-        <GroupsTable className="groupsTable" groupsList={props.data.groupsList}></GroupsTable>
+        <GroupsTable
+          className="groupsTable"
+          groupsList={
+            props.data.hasOwnProperty("groups") ? props.data.groups : []
+          }
+        ></GroupsTable>
         <div id="btnback" className="btnback">
           <button
             id="btnClosePopup"
