@@ -1,0 +1,32 @@
+.groupsTable {
+  
+    width: 65%;
+    height: fit-content;
+    text-align: center;
+    vertical-align: middle;
+  
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400px;
+    font-size: 16px;
+  
+    line-height: 20px;
+    border-width: 10px;
+    border-radius: 0px 0px 12px 12px;
+    padding: 10px;
+    margin: 0px;
+    overflow: hidden;
+    border-collapse: collapse;
+  }
+  
+  .groupsTable thead {
+    background-color: rgba(0, 0, 0, 0.23);
+  }
+  
+  .groupsTable tbody {
+    background-color: #eaeaea;
+  }
+  
+  .groupsTable td {
+    height: 30px;
+  }
