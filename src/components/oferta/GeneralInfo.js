@@ -18,7 +18,7 @@ export function GeneralInfo(props) {
         .then((data) => setTanda(data))
         .catch((res) => console.log(res));
     }
-  }, [props.userInfo]);
+  }, [props.userInfo, props.endpoint]);
 
   return (
     <div className="generalInfo">

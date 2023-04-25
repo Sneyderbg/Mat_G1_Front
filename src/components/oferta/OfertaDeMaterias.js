@@ -28,7 +28,7 @@ export function OfertaDeMaterias(props) {
     getUserInfo(USER_ID, API_URL + "ListadoEstudiantes?Id=")
       .then((info) => setUserInfo(info))
       .catch((res) => console.log(res));
-  }, [USER_ID]);
+  });
 
   return (
     <section className="ofertaMaterias">

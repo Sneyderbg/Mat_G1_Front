@@ -16,7 +16,7 @@ export function CoursesTable(props) {
         .then((list) => setCourses(list))
         .catch((res) => console.log(res));
     }
-  }, [props.userInfo]);
+  }, [props.userInfo, props.endpoint]);
 
   return (
     <div className="tabla">

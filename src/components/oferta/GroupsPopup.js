@@ -16,7 +16,7 @@ export function GroupsPopup(props) {
     setGroups([]);
     getCourseGroups(props.courseId, props.endpoint)
       .then((data) => {
-        if (data != undefined) {
+        if (data !== undefined) {
           setGroups(data);
         } else {
           return Promise.reject(data);
@@ -26,7 +26,7 @@ export function GroupsPopup(props) {
         console.error(err);
         setGroups({ error: "Error al cargar la información" });
       });
-  }, [props.courseId]);
+  }, [props.courseId, props.endpoint]);
 
   return (
     <div className="popup-background">
@@ -43,7 +43,7 @@ export function GroupsPopup(props) {
         </div>
         <GroupsTable
           className="groupsTable"
-          groupsList={groups != undefined && !groups.hasOwnProperty("error") ? groups : []}
+          groupsList={groups !== undefined && !groups.hasOwnProperty("error") ? groups : []}
         ></GroupsTable>
         <div id="btnback" className="btnback">
           <button
