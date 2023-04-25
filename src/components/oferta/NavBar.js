@@ -1,3 +1,8 @@
+/**
+ * Componente de la barra de navegación lateral.
+ * 
+ * @returns Render del componente.
+ */
 export function NavBar() {
   // TODO: Definir acciones de los botones
   

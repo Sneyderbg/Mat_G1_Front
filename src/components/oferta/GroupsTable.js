@@ -1,5 +1,11 @@
 import "./GroupsTable.css";
 
+/**
+ * Componente que define la tabla en donde se muestran los grupos de un curso.
+ * 
+ * @param {*} props Propiedades = {groupsList}.
+ * @returns Render del componente.
+ */
 export function GroupsTable(props) {
   return (
     <table className="groupsTable">

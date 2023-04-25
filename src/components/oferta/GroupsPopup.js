@@ -2,12 +2,19 @@ import { useState, useEffect } from "react";
 import { GroupsTable } from "./GroupsTable";
 import "./GroupsPopup.css";
 
+/**
+ * Componente que muestra la información de los grupos de un curso.
+ * 
+ * @param {*} props Propiedades = {courseId, endpoint, setTrigger}
+ * @returns Render del componente.
+ */
 export function GroupsPopup(props) {
   const [groups, setGroups] = useState([]);
 
+  // actualiza la lista de grupos si el id del curso cambia
   useEffect(() => {
     setGroups([]);
-    getCourseData(props.courseId, props.endpoint)
+    getCourseGroups(props.courseId, props.endpoint)
       .then((data) => {
         if (data != undefined) {
           setGroups(data);
@@ -52,7 +59,14 @@ export function GroupsPopup(props) {
   );
 }
 
-async function getCourseData(courseId, endpoint) {
+/**
+ * Consulta la lista de grupos de un curso.
+ * 
+ * @param {*} courseId Id del curso a consultar.
+ * @param {*} endpoint Endpoint para hacer la consulta.
+ * @returns Promise con lista de la información de los grupos.
+ */
+async function getCourseGroups(courseId, endpoint) {
   const sample_data = await fetch(endpoint + courseId, {
     method: "GET",
   })

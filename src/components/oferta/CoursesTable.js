@@ -1,8 +1,15 @@
 import { useState, useEffect } from "react";
 
+/**
+ * Componente que muestra la tabla de los cursos obligatorios ofertados.
+ *
+ * @param {*} props Propiedades = {userInfo, endpoint, showGroupsPopup, setCourseId}
+ * @returns Render del componente.
+ */
 export function CoursesTable(props) {
   const [courses, setCourses] = useState([]);
 
+  // Actualiza la lista de cursos cada vez que cambie la información del usuario
   useEffect(() => {
     if (props.userInfo.hasOwnProperty("Semestre académico")) {
       getCoursesByLevel(props.userInfo["Semestre académico"], props.endpoint)
@@ -48,6 +55,13 @@ export function CoursesTable(props) {
   );
 }
 
+/**
+ * Consulta la lista de cursos según el nivel académico dado.
+ *
+ * @param {*} level Nivel académico de los cursos a consultar
+ * @param {*} endpoint Endpoint para hacer la consulta.
+ * @returns Promise con la lista de los cursos.
+ */
 async function getCoursesByLevel(level, endpoint) {
   const sample_courses = await fetch(endpoint + level)
     .then((data) => data.json())

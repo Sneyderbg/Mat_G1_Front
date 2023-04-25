@@ -10,6 +10,12 @@ const API_URL = "http://localhost:4000/";
 const USER_ID = 47147042692;
 //-----------------------------------------------
 
+/**
+ * Página principal de la oferta de materias.
+ *
+ * @param {*} props Object{}
+ * @returns Render de la página.
+ */
 export function OfertaDeMaterias(props) {
   // const [showTanda, setShowTanda] = useState(true);
   const showTanda = true;
@@ -17,6 +23,7 @@ export function OfertaDeMaterias(props) {
   const [courseId, setCourseId] = useState(10002);
   const [userInfo, setUserInfo] = useState({});
 
+  // actualiza la información del usuario cada vez que cambia el id del usuario
   useEffect(() => {
     getUserInfo(USER_ID, API_URL + "ListadoEstudiantes?Id=")
       .then((info) => setUserInfo(info))
@@ -65,8 +72,6 @@ export function OfertaDeMaterias(props) {
           </div>
           <div className="botonesFinales">
             <button id="btnImprimir">Imprimir</button>
-
-            {/*No sé para que es*/}
             <button id="btnOtro">Elegir otro programa</button>
           </div>
         </div>
@@ -75,6 +80,13 @@ export function OfertaDeMaterias(props) {
   );
 }
 
+/**
+ * Obtiene la información de un usuario por su id a través del endpoint.
+ *
+ * @param {Number} userId Id de usuario.
+ * @param {String} endpoint Endpoint para hacer la consulta.
+ * @returns Promise de la info.
+ */
 async function getUserInfo(userId, endpoint) {
   const sample_info = await fetch(endpoint + userId)
     .then((res) => res.json())

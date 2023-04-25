@@ -1,10 +1,17 @@
 import { useState, useEffect } from "react";
 
+/**
+ * Componente que describe la información general de la oferta de matriculas.
+ *
+ * @param {*} props Propiedades = {userInfo, endpoint, showTanda}.
+ * @returns Render del componente.
+ */
 export function GeneralInfo(props) {
   const [tanda, setTanda] = useState({});
   const date = new Date();
   let currentDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
+  // Actualiza la tanda si la info del usuario cambia
   useEffect(() => {
     if (props.userInfo.hasOwnProperty("Tanda de matrícula")) {
       getTanda(props.userInfo["Tanda de matrícula"], props.endpoint)
@@ -56,6 +63,13 @@ export function GeneralInfo(props) {
   );
 }
 
+/**
+ * Obtiene la información de la tanda del usuario actual a través del endpoint dado.
+ * 
+ * @param {*} numTanda Número de tanda del usuario.
+ * @param {*} endpoint Endpoint para hacer la consulta.
+ * @returns Promise de la información de la tanda.
+ */
 async function getTanda(numTanda, endpoint) {
   const sample_data = await fetch(endpoint + numTanda)
     .then((data) => data.json())
