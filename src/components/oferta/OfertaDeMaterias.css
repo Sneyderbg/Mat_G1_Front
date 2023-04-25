@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+.ofertaMaterias {
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+}
+
+.cover {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+    display:flexbox;
+}
+
+.cover h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    color: #0D4928;
+}
+
+.cover h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 27px;
+    font-weight: 500;
+    color: #0D4928;
+}
+
+.cover p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.navbar {
+    width: 231px;
+    height: 241px;
+    display: grid;
+    box-sizing: border-box;
+    border-radius: 2.5mm;
+    justify-content: left;
+    padding: 2mm;
+    position: relative;
+    top: 125px;
+    left: 150px;
+    background-color: rgba(13, 73, 40, 0.23);
+
+}
+
+.navbar button {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    margin-bottom: 7px;
+    border: none;
+    border-radius: 1.5mm;
+    width: 215px;
+    height: 32px;
+    color: #332F2F;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.navbar button:hover {
+    color: white;
+    background-color: rgba(13, 73, 40, 0.92);
+    transition: .309s;
+}
+
+.contenido {
+    width: 735px;
+    height: 100vh;
+    float: right;
+    text-align: left;
+    position: relative;
+    bottom: 200px;
+    right: 180px;
+}
+
+.generalInfo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    padding-left: 10px;
+    padding-top: 5px;
+    border-radius: 2.5mm 2.5mm 0 0;
+    color: #3A3535;
+    background-color: #F0F0F0;
+}
+
+.matricula {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    background-color: coral;
+    color: #1E1B1B;
+    background-color: #F0F0F0;
+}
+
+.parametrosMatricula {
+    padding-right: 110px;
+    position: relative;
+    left: 125px;
+    color: #AD1919;
+}
+
+.obligatorias {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    padding-left: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    color: #3A3535;
+    background-color: #FCFCFC;
+}
+
+.tabla table {
+    border-collapse: collapse;
+}
+
+.tabla th {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    width: 573.03px;
+    color: #3A3535;
+    background-color: #E2E0E0;
+}
+
+.tabla td {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+    width: 573.03px;
+    color: #3A3535;
+    background-color: #F0F0F0;
+}
+
+.electivas {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    padding-left: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    color: #0D4928;
+    background-color: #FCFCFC;
+}
+
+.botonesFinales {
+    width: auto;
+    height: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    border-radius: 0 0 2.5mm 2.5mm;
+    background-color: #F0F0F0;
+}
+
+#btnImprimir {
+    height: 38px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 1.5mm;
+    border: none;
+    position: relative;
+    left: 190px;
+    color: #332F2F;
+    background-color: rgba(116, 129, 121, 0.35);
+    cursor: pointer;
+
+}
+
+#btnImprimir:hover {
+    color: white;
+    background-color: rgba(13, 73, 40, 0.92);
+    transition: .309s;
+}
+
+#btnOtro {
+    height: 38px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 1.5mm;
+    position: relative;
+    left: 305px;
+    color: #332F2F;
+    background-color: rgba(116, 129, 121, 0.35);
+    cursor: pointer;
+}
+
+#btnOtro:hover {
+    color: white;
+    background-color: rgba(13, 73, 40, 0.92);
+    transition: .309s;
+}
+
+.dato {
+    font-weight: 400;
+}
+
+

@@ -12,13 +12,15 @@ export function GroupsTable(props) {
         </tr>
       </thead>
       <tbody className="groupsTBody">
-        {props.groupsList.map((group) => {
+        {props.groupsList.map((group, idx) => {
           return (
-            <tr key={group.id}>
-              <td>{group.id}</td>
-              <td>{group.quotasLeft}</td>
-              <td>{group.classroom}</td>
-              <td>{group.hours}</td>
+            <tr key={idx}>
+              <td>{group.Grupo}</td>
+              <td>{group.CuposDisponibles - group.Matriculados}</td>
+              <td>(No hay aulas*)</td>
+              <td>
+                {group.Horario.replaceAll(":00", "").replaceAll(" ", "").replaceAll(";", " ")}
+              </td>
             </tr>
           );
         })}
