@@ -4,7 +4,7 @@ import { MainPage } from "./components/MainPage";
 function App() {
   return (
     <div>
-      <MainPage></MainPage>;
+      <MainPage></MainPage>
     </div>
   );
 }

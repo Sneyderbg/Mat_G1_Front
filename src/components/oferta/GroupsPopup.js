@@ -28,7 +28,7 @@ export function GroupsPopup(props) {
       });
   }, [props.courseId, props.endpoint]);
 
-  return (
+  return props.showYourself ? (
     <div className="popup-background">
       <div id="popup" className="popup">
         <div id="txtpopuptitle" className="txtpopuptitle">
@@ -56,7 +56,7 @@ export function GroupsPopup(props) {
         </div>
       </div>
     </div>
-  );
+  ) : "";
 }
 
 /**

@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
 .popup-background {
   position: absolute;
   left: 0;
@@ -71,20 +77,25 @@
 }
 
 .btnClosePopup {
+  width: fit-content;
+  height: fit-content;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 1.5mm;
+  color: #332F2F;
+  background-color: rgba(116, 129, 121, 0.35);
+  padding: 10px;
+
   justify-content: center;
   align-items: center;
-
-  width: 106px;
-  height: 34px;
-  border-radius: 10px;
-
-  background: rgba(13, 73, 40, 0.23);
 
   transition-duration: 0.3s;
 }
 
 .btnClosePopup:hover {
-  background-color: #0D4928;
-  color: #D9D9D9;
+  color: white;
+  background-color: rgba(13, 73, 40, 0.92);
+  transition: .309s;
   cursor: pointer;
 }
