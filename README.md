@@ -14,11 +14,12 @@ TODO: añadir descripción
 npm start
 ```
 
-### Para compilar:
+### Para compilar la versión de distribución:
 
 ```console
 npm run build
 ```
+----------
 
 ## Para usar datos de prueba locales:
 
@@ -28,4 +29,4 @@ En otra terminal:
 json-server -p 4000 -w .\db.json
 ```
 
-donde **_db.json_** es un archivo json que simula los datos de prueba, puede descargar el archivo base [aquí](https://drive.google.com/file/d/1GnYU-lIpAMOnwXR5E4IgixdmiZYVIkFc/view?usp=share_link)
+>donde **_db.json_** es un archivo json que simula los datos de prueba, puede descargar el archivo base [aquí](https://drive.google.com/file/d/1GnYU-lIpAMOnwXR5E4IgixdmiZYVIkFc/view?usp=share_link)
