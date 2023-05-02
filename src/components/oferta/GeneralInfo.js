@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 /**
  * Componente que describe la información general de la oferta de matriculas.
@@ -55,19 +56,25 @@ export function GeneralInfo(props) {
         props.showTanda && (
           <div className="tandaMatricula">
             <label className="labelTanda">Matrícula </label>
-            <br />
-            <label className="tandaParams">Tanda: </label>
-            <label className="tandaDatos" id="datoTanda">
-              {tanda.hasOwnProperty("Tanda") ? tanda.Tanda : "----"}
-            </label>
-            <label className="tandaParams">Fecha: </label>
-            <label className="tandaDatos" id="datoFecha">
-              {tanda.hasOwnProperty("Día") ? tanda["Día"] : "----"}
-            </label>
-            <label className="tandaParams">Hora: </label>
-            <label className="tandaDatos" id="datoHora">
-              {tanda.hasOwnProperty("Horario") ? tanda.Horario.replace(":00", "") : "----"}
-            </label>
+            <div>
+              <br />
+              <label className="tandaParams">Tanda: </label>
+              <label className="tandaDatos" id="datoTanda">
+                {tanda.hasOwnProperty("Tanda") ? tanda.Tanda : "----"}
+              </label>
+            </div>
+            <div>
+              <label className="tandaParams">Fecha: </label>
+              <label className="tandaDatos" id="datoFecha">
+                {tanda.hasOwnProperty("Día") ? tanda["Día"] : "----"}
+              </label>
+            </div>
+            <div>
+              <label className="tandaParams">Hora: </label>
+              <label className="tandaDatos" id="datoHora">
+                {tanda.hasOwnProperty("Horario") ? tanda.Horario.replace(":00", "") : "----"}
+              </label>
+            </div>
           </div>
         )
       )}
@@ -83,12 +90,15 @@ export function GeneralInfo(props) {
  * @returns Promise de la información de la tanda.
  */
 async function getTanda(numTanda, endpoint) {
-  const sample_data = await fetch(endpoint + numTanda)
-    .then((data) => data.json())
+  const sample_data = await axios
+    .get(endpoint, {
+      params: { Tanda: numTanda },
+    })
+    .then((res) => res.data)
     .catch((err) => {
-      const error = { reason: "Error al obtener la información de la tanda.", cause: err };
-      console.error(error.reason, error.cause);
-      return { error };
+      const error = { ...err, customMessage: "Error al obtener la información de la tanda." };
+      console.error(error.customMessage, err);
+      return error;
     });
 
   return sample_data;

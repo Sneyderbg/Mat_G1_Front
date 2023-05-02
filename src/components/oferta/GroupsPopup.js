@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import { GroupsTable } from "./GroupsTable";
 import "./GroupsPopup.css";
 
@@ -13,7 +14,7 @@ export function GroupsPopup(props) {
 
   // actualiza la lista de grupos si el id del curso cambia
   useEffect(() => {
-    setGroups({ list: [] });
+    setGroups([]);
     getCourseGroups(props.courseId, props.endpoint)
       .then((data) => setGroups(data))
       .catch((err) => console.error(err));
@@ -26,17 +27,15 @@ export function GroupsPopup(props) {
           Grupos y horarios disponibles para esta materia
         </div>
         <div id="txtcourse" className="txtcourse">
-          {groups.hasOwnProperty("error")
-            ? groups.error.reason
-            : groups.list.length > 0
-            ? "[" + groups.list[0].IdCurso + "] " + groups.list[0].Nombre
+          {groups.code === "ERR_BAD_REQUEST"
+            ? groups.customMessage
+            : groups.length > 0
+            ? "[" + groups[0].IdCurso + "] " + groups[0].Nombre
             : "Cargando información..."}
         </div>
         <GroupsTable
           className="groupsTable"
-          groupsList={
-            groups.hasOwnProperty("list") && !groups.hasOwnProperty("error") ? groups.list : []
-          }
+          groupsList={groups.code !== "ERR_BAD_REQUEST" ? groups : []}
         ></GroupsTable>
         <div id="btnback" className="btnback">
           <button
@@ -62,16 +61,18 @@ export function GroupsPopup(props) {
  * @returns Promise con lista de la información de los grupos.
  */
 async function getCourseGroups(courseId, endpoint) {
-  let sample_data = await fetch(endpoint + courseId)
-    .then((response) => response.json())
+  let sample_data = await axios
+    .get(endpoint, {
+      params: {
+        IdCurso: courseId,
+      },
+    })
+    .then((res) => res.data)
     .catch((err) => {
-      const error = { reason: "Error al cargar la información de los grupos.", cause: err };
-      console.error(error.reason, error.cause);
-      return { error };
+      const error = { ...err, customMessage: "Error al cargar la información de los grupos." };
+      console.error(error.customMessage, err);
+      return error;
     });
 
-  if (Array.isArray(sample_data)) {
-    sample_data = { list: sample_data };
-  }
   return sample_data;
 }

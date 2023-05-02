@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import "./OfertaDeMaterias.css";
 import { GroupsPopup } from "./GroupsPopup";
 import { CoursesTable } from "./CoursesTable";
 import { NavBar } from "./NavBar";
 import { GeneralInfo } from "./GeneralInfo";
+import cfg from "./config.json";
 
 /**
  * Página principal de la oferta de materias.
-*
-* @param {*} props Object{}
-* @returns Render de la página.
-*/
+ *
+ * @param {*} props Object{}
+ * @returns Render de la página.
+ */
 export function OfertaDeMaterias(props) {
-
   //---------- Constants for testing --------------
-  const API_URL = "http://localhost:4000/";
   const USER_ID = 47147042692;
   //-----------------------------------------------
 
@@ -22,22 +22,22 @@ export function OfertaDeMaterias(props) {
   const [showGroupsPopup, setShowGroupsPopup] = useState(false);
   const [courseId, setCourseId] = useState(10002);
   const [userInfo, setUserInfo] = useState({});
-  
+
   // actualiza la información del usuario cada vez que cambia el id del usuario
   useEffect(() => {
-    getUserInfo(USER_ID, API_URL + "ListadoEstudiantes?Id=")
+    getUserInfo(USER_ID, cfg.API_URL + cfg.endpoints.STUDENTS)
       .then((info) => setUserInfo(info))
       .catch((res) => console.log(res));
-  }, [USER_ID, API_URL]);
+  }, [USER_ID]);
 
   return (
     <div className="main">
-        <GroupsPopup
-          showYourself={showGroupsPopup}
-          endpoint={API_URL + "ProgramacionAcademica?IdCurso="}
-          courseId={courseId}
-          setTrigger={setShowGroupsPopup}
-        ></GroupsPopup>
+      <GroupsPopup
+        showYourself={showGroupsPopup}
+        endpoint={cfg.API_URL + cfg.endpoints.ACADEMIC_SCHEDULE}
+        courseId={courseId}
+        setTrigger={setShowGroupsPopup}
+      ></GroupsPopup>
       <div className="oferta">
         <header>
           <h1>Proceso de matrícula</h1>
@@ -52,7 +52,7 @@ export function OfertaDeMaterias(props) {
               Universitario, identificándote con usuario y contraseña.
             </p>
             <GeneralInfo
-              endpoint={API_URL + "HorarioTandas?Tanda="}
+              endpoint={cfg.API_URL + cfg.endpoints.TANDAS}
               userInfo={userInfo}
               showTanda={showTanda}
             ></GeneralInfo>
@@ -61,7 +61,7 @@ export function OfertaDeMaterias(props) {
             </div>
             <CoursesTable
               userInfo={userInfo}
-              endpoint={API_URL + "CursosIngenieriaSistemas?Nivel="}
+              endpoint={cfg.API_URL + cfg.endpoints.COURSES}
               showGroupsPopup={() => {
                 setShowGroupsPopup(true);
               }}
@@ -90,9 +90,16 @@ export function OfertaDeMaterias(props) {
  * @returns Promise de la info.
  */
 async function getUserInfo(userId, endpoint) {
-  const sample_info = await fetch(endpoint + userId)
-    .then((res) => res.json())
-    .catch((err) => console.log("Error al obtener la infromación del usuario.", err));
+  const sample_info = await axios
+    .get(endpoint, {
+      params: { Id: userId },
+    })
+    .then((res) => res.data[0]) // solo hay un estudiante por id
+    .catch((err) => {
+      const error = { ...err, customMessage: "Error al obtener la infromación del usuario." };
+      console.log(error.customMessage, err);
+      return error;
+    });
 
-  return sample_info[0]; // solo hay un estudiante por id
+  return sample_info;
 }

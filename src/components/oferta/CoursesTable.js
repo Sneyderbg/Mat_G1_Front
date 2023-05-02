@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 /**
  * Componente que muestra la tabla de los cursos obligatorios ofertados.
@@ -13,7 +14,7 @@ export function CoursesTable(props) {
   useEffect(() => {
     if (props.userInfo.hasOwnProperty("Semestre académico")) {
       getCoursesByLevel(props.userInfo["Semestre académico"], props.endpoint)
-        .then((list) => setCourses(list))
+        .then((res) => setCourses(res))
         .catch((err) => {
           console.error(err);
         });
@@ -22,9 +23,9 @@ export function CoursesTable(props) {
 
   return (
     <div className="tabla">
-      {courses.hasOwnProperty("error") ? (
+      {courses.code === "ERR_BAD_REQUEST" ? (
         <div id="errorCursos">
-          <h3>{courses.error.reason}</h3>
+          <h3>{courses.customMessage}</h3>
         </div>
       ) : (
         <table>
@@ -71,12 +72,15 @@ export function CoursesTable(props) {
  * @returns Promise con la lista de los cursos.
  */
 async function getCoursesByLevel(level, endpoint) {
-  const sample_courses = await fetch(endpoint + level)
-    .then((data) => data.json())
+  const sample_courses = await axios
+    .get(endpoint, {
+      params: { Nivel: level },
+    })
+    .then((res) => res.data)
     .catch((err) => {
-      const error = { reason: "Error al obtener la información de los cursos.", cause: err };
-      console.error(error.reason, error.cause);
-      return { error };
+      const error = { ...err, customMessage: "Error al obtener la información de los cursos." };
+      console.error(error.customMessage, err);
+      return error;
     });
 
   return sample_courses;
