@@ -28,6 +28,12 @@ h2 {
     color: #0D4928;
 }
 
+h3 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #AD1919;
+}
+
 p {
     font-size: 18px;
     font-weight: 400;
@@ -99,6 +105,11 @@ p {
     font-weight: 400;
 }
 
+#errorTanda {
+    display: flex;
+    justify-content: center;
+}
+
 .tandaMatricula {
     display: flex;
     flex-direction: row;
@@ -133,6 +144,11 @@ p {
     padding: 4px 10px;
     color: #3A3535;
     background-color: #FCFCFC;
+}
+
+#errorCursos {
+    display: flex;
+    justify-content: center;
 }
 
 .tabla table {

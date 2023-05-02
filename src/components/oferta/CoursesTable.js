@@ -14,43 +14,51 @@ export function CoursesTable(props) {
     if (props.userInfo.hasOwnProperty("Semestre académico")) {
       getCoursesByLevel(props.userInfo["Semestre académico"], props.endpoint)
         .then((list) => setCourses(list))
-        .catch((res) => console.log(res));
+        .catch((err) => {
+          console.error(err);
+        });
     }
   }, [props.userInfo, props.endpoint]);
 
   return (
     <div className="tabla">
-      <table>
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Materia</th>
-            <th>Créditos</th>
-            <th>Horario</th>
-          </tr>
-        </thead>
-        <tbody>
-          {courses.map((course, idx) => {
-            return (
-              <tr key={idx}>
-                <td>{course["IDCurso"]}</td>
-                <td>{course["Nombre del curso"]}</td>
-                <td>{course["Créditos"]}</td>
-                <td>
-                  <button
-                    onClick={() => {
-                      props.setCourseId(course["IDCurso"]);
-                      props.showGroupsPopup();
-                    }}
-                  >
-                    Ver Horarios
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      {courses.hasOwnProperty("error") ? (
+        <div id="errorCursos">
+          <h3>{courses.error.reason}</h3>
+        </div>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Materia</th>
+              <th>Créditos</th>
+              <th>Horario</th>
+            </tr>
+          </thead>
+          <tbody>
+            {courses.map((course, idx) => {
+              return (
+                <tr key={idx}>
+                  <td>{course["IDCurso"]}</td>
+                  <td>{course["Nombre del curso"]}</td>
+                  <td>{course["Créditos"]}</td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        props.setCourseId(course["IDCurso"]);
+                        props.showGroupsPopup();
+                      }}
+                    >
+                      Ver Horarios
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
@@ -65,7 +73,11 @@ export function CoursesTable(props) {
 async function getCoursesByLevel(level, endpoint) {
   const sample_courses = await fetch(endpoint + level)
     .then((data) => data.json())
-    .catch((res) => console.log(res));
+    .catch((err) => {
+      const error = { reason: "Error al obtener la información de los cursos.", cause: err };
+      console.error(error.reason, error.cause);
+      return { error };
+    });
 
   return sample_courses;
 }

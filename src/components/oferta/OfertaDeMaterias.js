@@ -92,7 +92,7 @@ export function OfertaDeMaterias(props) {
 async function getUserInfo(userId, endpoint) {
   const sample_info = await fetch(endpoint + userId)
     .then((res) => res.json())
-    .catch(() => console.log("USERerrrrorrorror"));
+    .catch((err) => console.log("Error al obtener la infromación del usuario.", err));
 
   return sample_info[0]; // solo hay un estudiante por id
 }

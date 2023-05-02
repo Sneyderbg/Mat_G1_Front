@@ -9,14 +9,16 @@ import { useState, useEffect } from "react";
 export function GeneralInfo(props) {
   const [tanda, setTanda] = useState({});
   const date = new Date();
-  let currentDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+  const currentDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
   // Actualiza la tanda si la info del usuario cambia
   useEffect(() => {
     if (props.userInfo.hasOwnProperty("Tanda de matrícula")) {
       getTanda(props.userInfo["Tanda de matrícula"], props.endpoint)
-        .then((data) => setTanda(data))
-        .catch((res) => console.log(res));
+        .then((data) => {
+          Array.isArray(data) ? setTanda(data[0]) : setTanda(data);
+        })
+        .catch((res) => console.error(res));
     }
   }, [props.userInfo, props.endpoint]);
 
@@ -45,19 +47,29 @@ export function GeneralInfo(props) {
           ? props.userInfo["Semestre académico"]
           : "----"}
       </label>
-      {props.showTanda && (
-        <div className="tandaMatricula">
-          <label className="labelTanda">Matrícula </label>
-          <br />
-          <label className="tandaParams">Tanda: </label>
-          <label className="tandaDatos" id="datoTanda">{tanda.hasOwnProperty("Tanda") ? tanda.Tanda : "----"}</label>
-          <label className="tandaParams">Fecha: </label>
-          <label className="tandaDatos" id="datoFecha">{tanda.hasOwnProperty("Día") ? tanda["Día"] : "----"}</label>
-          <label className="tandaParams">Hora: </label>
-          <label className="tandaDatos" id="datoHora">
-            {tanda.hasOwnProperty("Horario") ? tanda.Horario.replace(":00", "") : "----"}
-          </label>
+      {tanda.hasOwnProperty("error") ? (
+        <div id="errorTanda">
+          <h3>{tanda.error.reason}</h3>
         </div>
+      ) : (
+        props.showTanda && (
+          <div className="tandaMatricula">
+            <label className="labelTanda">Matrícula </label>
+            <br />
+            <label className="tandaParams">Tanda: </label>
+            <label className="tandaDatos" id="datoTanda">
+              {tanda.hasOwnProperty("Tanda") ? tanda.Tanda : "----"}
+            </label>
+            <label className="tandaParams">Fecha: </label>
+            <label className="tandaDatos" id="datoFecha">
+              {tanda.hasOwnProperty("Día") ? tanda["Día"] : "----"}
+            </label>
+            <label className="tandaParams">Hora: </label>
+            <label className="tandaDatos" id="datoHora">
+              {tanda.hasOwnProperty("Horario") ? tanda.Horario.replace(":00", "") : "----"}
+            </label>
+          </div>
+        )
       )}
     </div>
   );
@@ -65,7 +77,7 @@ export function GeneralInfo(props) {
 
 /**
  * Obtiene la información de la tanda del usuario actual a través del endpoint dado.
- * 
+ *
  * @param {*} numTanda Número de tanda del usuario.
  * @param {*} endpoint Endpoint para hacer la consulta.
  * @returns Promise de la información de la tanda.
@@ -73,7 +85,11 @@ export function GeneralInfo(props) {
 async function getTanda(numTanda, endpoint) {
   const sample_data = await fetch(endpoint + numTanda)
     .then((data) => data.json())
-    .catch((res) => console.log(res));
+    .catch((err) => {
+      const error = { reason: "Error al obtener la información de la tanda.", cause: err };
+      console.error(error.reason, error.cause);
+      return { error };
+    });
 
-  return sample_data[0]; // tandas únicas
+  return sample_data;
 }
