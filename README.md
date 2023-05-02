@@ -8,16 +8,21 @@ TODO: añadir descripción
 - react-scrips [https://www.npmjs.com/package/react-scripts]
 - json-server (opcional) [https://www.npmjs.com/package/json-server] (para pruebas locales)
 
+### Antes de ejecutar o compilar, se deben inicializar los modulos y dependecias:
+```console
+> npm install
+```
+
 ### Para ejecutar la app web:
 
 ```console
-npm start
+> npm start
 ```
 
 ### Para compilar la versión de distribución:
 
 ```console
-npm run build
+> npm run build
 ```
 ----------
 
