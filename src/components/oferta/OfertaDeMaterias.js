@@ -3,7 +3,6 @@ import axios from "axios";
 import "./OfertaDeMaterias.css";
 import { GroupsPopup } from "./GroupsPopup";
 import { CoursesTable } from "./CoursesTable";
-import { NavBar } from "./NavBar";
 import { GeneralInfo } from "./GeneralInfo";
 import cfg from "./config.json";
 
@@ -31,51 +30,43 @@ export function OfertaDeMaterias(props) {
   }, [USER_ID]);
 
   return (
-    <div className="main">
+    <div className="defaultDiv">
       <GroupsPopup
         showYourself={showGroupsPopup}
         endpoint={cfg.API_URL + cfg.endpoints.ACADEMIC_SCHEDULE}
         courseId={courseId}
         setTrigger={setShowGroupsPopup}
       ></GroupsPopup>
-      <div className="oferta">
-        <header>
-          <h1>Proceso de matrícula</h1>
-        </header>
-        <div className="body">
-          <NavBar></NavBar>
-          <div className="contenido">
-            <h2>Oferta de materias</h2>
-            <p>
-              Aquí encontrarás las materias que puedes matricular en este periodo académico, además
-              del día, hora y tanda en la cual debes matricularte a través del Portal Web
-              Universitario, identificándote con usuario y contraseña.
-            </p>
-            <GeneralInfo
-              endpoint={cfg.API_URL + cfg.endpoints.TANDAS}
-              userInfo={userInfo}
-              showTanda={showTanda}
-            ></GeneralInfo>
-            <div className="obligatorias">
-              <label>Materias obligatorias </label>
-            </div>
-            <CoursesTable
-              userInfo={userInfo}
-              endpoint={cfg.API_URL + cfg.endpoints.COURSES}
-              showGroupsPopup={() => {
-                setShowGroupsPopup(true);
-              }}
-              setCourseId={setCourseId}
-            ></CoursesTable>
-            <div className="electivas">
-              <label>No tiene materias electivas en su oferta </label>
-            </div>
-            <div className="botonesFinales">
-              <button id="btnImprimir">Imprimir</button>
-              <button id="btnOtro">Elegir otro programa</button>
-              <div></div>
-            </div>
-          </div>
+      <div className="body">
+        <h2>Oferta de materias</h2>
+        <p>
+          Aquí encontrarás las materias que puedes matricular en este periodo académico, además
+          del día, hora y tanda en la cual debes matricularte a través del Portal Web
+          Universitario, identificándote con usuario y contraseña.
+        </p>
+        <GeneralInfo
+          endpoint={cfg.API_URL + cfg.endpoints.TANDAS}
+          userInfo={userInfo}
+          showTanda={showTanda}
+        ></GeneralInfo>
+        <div className="obligatorias">
+          <label>Materias obligatorias </label>
+        </div>
+        <CoursesTable
+          userInfo={userInfo}
+          endpoint={cfg.API_URL + cfg.endpoints.COURSES}
+          showGroupsPopup={() => {
+            setShowGroupsPopup(true);
+          }}
+          setCourseId={setCourseId}
+        ></CoursesTable>
+        <div className="electivas">
+          <label>No tiene materias electivas en su oferta </label>
+        </div>
+        <div className="botonesFinales">
+          <button id="btnImprimir">Imprimir</button>
+          <button id="btnOtro">Elegir otro programa</button>
+          <div></div>
         </div>
       </div>
     </div>

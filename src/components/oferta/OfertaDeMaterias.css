@@ -4,11 +4,6 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-.main {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
 
 header {
     width: 100%;
@@ -40,58 +35,23 @@ p {
 }
 
 .body {
-    width: auto;
-    height: max-content;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    flex-grow: 2;
-    align-items: flex-start;
-    justify-content: space-evenly;
-    padding-left: 5vw;
-    padding-right: 5vw;
-    gap: 2vw;
-}
-
-.navbar {
-    position: relative;
-    width: max-content;
-    height: max-content;
     display: flex;
     flex-direction: column;
-    border-radius: 2.5mm;
-    padding: 2mm;
-    background-color: rgba(13, 73, 40, 0.23);
-}
-
-.navbar button {
-    font-size: 16px;
-    font-weight: 500;
+    justify-content: space-evenly;
+    align-items: center;
     text-align: left;
-    margin-bottom: 7px;
-    border: none;
-    border-radius: 1.5mm;
-    width: 215px;
-    height: 32px;
-    color: #332F2F;
-    background-color: transparent;
-    cursor: pointer;
-}
+    gap: 2vw;
 
-.navbar button:hover {
-    color: white;
-    background-color: rgba(13, 73, 40, 0.92);
-    transition: .309s;
-}
-
-.contenido {
-    width: 50vw;
+    position: relative;
+    width: 100%;
     height: fit-content;
-    text-align: left;
-    /* float: right; */
+    padding-left: 5vw;
+    padding-right: 5vw;
 }
 
 .generalInfo {
+    width: 100%;
+    height: fit-content;
     font-size: 18px;
     font-weight: 600;
     padding: 5px 10px;
@@ -110,12 +70,14 @@ p {
     justify-content: center;
 }
 
+
 .tandaMatricula {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     row-gap: 0.5em;
     justify-content: center;
+    align-items: center;
     font-size: 20px;
     font-weight: 700;
     padding: 5px 10px;
@@ -123,19 +85,20 @@ p {
     color: #1E1B1B;
 }
 
-.labelTanda {
+.lblMatricula {
     width: 100%;
+    height: fit-content;
     padding-left: 0.5em;
 }
 
 .tandaParams {
     margin: 0em 0.5em;
+    width: fit-content;
 }
 
 .tandaDatos {
     color: #AD1919;
     margin-right: 2em;
-    /* font-weight: 400; */
 }
 
 .obligatorias {
@@ -151,15 +114,21 @@ p {
     justify-content: center;
 }
 
-.tabla table {
-    border-collapse: collapse;
+.tabla{
+    width: 100%;
 }
 
-.tabla th {
+.tabla table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tabla tr {
     font-size: 20px;
     font-weight: 600;
     text-align: center;
-    width: 573.03px;
+    /* width: fit-content;
+    width: 573.03px; */
     color: #3A3535;
     background-color: #E2E0E0;
 }
@@ -168,7 +137,8 @@ p {
     font-size: 18px;
     font-weight: 400;
     text-align: center;
-    width: 573.03px;
+    padding: 4px 8px;
+    /* width: 573.03px; */
     color: #3A3535;
     background-color: #F0F0F0;
 }
@@ -205,8 +175,9 @@ p {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     column-gap: 2em;
-    width: auto;
+    width: 100%;
     height: auto;
     padding: 15px 10px;
     border-radius: 0 0 2.5mm 2.5mm;

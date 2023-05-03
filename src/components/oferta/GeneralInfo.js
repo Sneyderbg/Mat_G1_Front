@@ -55,22 +55,21 @@ export function GeneralInfo(props) {
       ) : (
         props.showTanda && (
           <div className="tandaMatricula">
-            <label className="labelTanda">Matrícula </label>
-            <div>
-              <br />
-              <label className="tandaParams">Tanda: </label>
+            <label className="lblMatricula">Matrícula </label>
+            <div className="tandaParams">
+              <label>Tanda: </label>
               <label className="tandaDatos" id="datoTanda">
                 {tanda.hasOwnProperty("Tanda") ? tanda.Tanda : "----"}
               </label>
             </div>
-            <div>
-              <label className="tandaParams">Fecha: </label>
+            <div className="tandaParams">
+              <label>Fecha: </label>
               <label className="tandaDatos" id="datoFecha">
                 {tanda.hasOwnProperty("Día") ? tanda["Día"] : "----"}
               </label>
             </div>
-            <div>
-              <label className="tandaParams">Hora: </label>
+            <div className="tandaParams">
+              <label>Hora: </label>
               <label className="tandaDatos" id="datoHora">
                 {tanda.hasOwnProperty("Horario") ? tanda.Horario.replace(":00", "") : "----"}
               </label>
