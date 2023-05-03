@@ -11,6 +11,7 @@ import { BlankPage } from "./blank/blankPage";
  */
 export function MainPage(props) {
   const [currentPageNumber, setCurrentPageNumber] = useState(2);
+  console.log(props.cfg);
 
   return (
     <div>
@@ -19,16 +20,16 @@ export function MainPage(props) {
       </header>
       <main>
         <NavBar activeBtnIdx={currentPageNumber} changePageNumber={setCurrentPageNumber}></NavBar>
-        {getCurrentPage(currentPageNumber)}
+        {getCurrentPage(currentPageNumber, props.cfg)}
       </main>
     </div>
   );
 }
 
-function getCurrentPage(idx) {
+function getCurrentPage(idx, cfg) {
   switch (idx) {
     case 2:
-      return <OfertaDeMaterias></OfertaDeMaterias>;
+      return <OfertaDeMaterias cfg={cfg}></OfertaDeMaterias>;
 
     default:
       return <BlankPage></BlankPage>;

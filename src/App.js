@@ -1,10 +1,11 @@
 import "./App.css";
 import { MainPage } from "./components/MainPage";
+import cfg from "./config.json";
 
 function App() {
   return (
     <div>
-      <MainPage></MainPage>
+      <MainPage cfg={cfg}></MainPage>
     </div>
   );
 }

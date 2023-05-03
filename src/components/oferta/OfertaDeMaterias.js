@@ -4,7 +4,6 @@ import axios from "axios";
 import { GroupsPopup } from "./GroupsPopup";
 import { CoursesTable } from "./CoursesTable";
 import { GeneralInfo } from "./GeneralInfo";
-import cfg from "./config.json";
 
 /**
  * Página principal de la oferta de materias.
@@ -15,6 +14,7 @@ import cfg from "./config.json";
 export function OfertaDeMaterias(props) {
   //---------- Constants for testing --------------
   const USER_ID = 47147042692;
+  const cfg = props.cfg;
   //-----------------------------------------------
 
   const showTanda = true;
@@ -27,7 +27,7 @@ export function OfertaDeMaterias(props) {
     getUserInfo(USER_ID, cfg.API_URL + cfg.endpoints.STUDENTS)
       .then((info) => setUserInfo(info))
       .catch((res) => console.log(res));
-  }, [USER_ID]);
+  }, [USER_ID, cfg]);
 
   return (
     <div className="default-div">
