@@ -41,6 +41,7 @@ p {
     align-items: center;
     text-align: left;
     gap: 2vw;
+    margin: 0px 60px;
 
     position: relative;
     width: 100%;
@@ -50,12 +51,14 @@ p {
 }
 
 .generalInfo {
+    box-sizing: border-box;
     width: 100%;
     height: fit-content;
     font-size: 18px;
     font-weight: 600;
     padding: 5px 10px;
-    margin: 10px 0px;
+    margin: 10px 10px;
+    border-width: 50px;
     border-radius: 2.5mm 2.5mm 0 0;
     color: #3A3535;
     background-color: #F0F0F0;
@@ -172,6 +175,7 @@ p {
 }
 
 .botonesFinales {
+    box-sizing: border-box;
     display: flex;
     flex-direction: row;
     justify-content: center;

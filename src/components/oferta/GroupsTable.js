@@ -23,7 +23,7 @@ export function GroupsTable(props) {
             <tr key={idx}>
               <td>{group.Grupo}</td>
               <td>{group.CuposDisponibles - group.Matriculados}</td>
-              <td>(No hay aulas*)</td>
+              <td>(No hay)</td>
               <td>
                 {group.Horario.replaceAll(":00", "").replaceAll(" ", "").replaceAll(";", " ")}
               </td>
