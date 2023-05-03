@@ -24,53 +24,53 @@ export function GeneralInfo(props) {
   }, [props.userInfo, props.endpoint]);
 
   return (
-    <div className="generalInfo">
+    <div className="info-box">
       <label>Fecha: </label>
-      <label className="dato" id="datoFecha">
+      <label className="info-box__dato" id="dato-fecha">
         {currentDate}
       </label>
       <br />
       <label>Nombre: </label>
-      <label className="dato" id="datoNombre">
+      <label className="info-box__dato">
         {props.userInfo.hasOwnProperty("Nombres")
           ? props.userInfo.Nombres + " " + props.userInfo.Apellidos
           : "----"}
       </label>
       <br />
       <label>Programa: </label>
-      <label className="dato" id="datoPrograma">
+      <label className="info-box__dato">
         Ingeniería de Sistemas
       </label>
       <br />
       <label>Semestre: </label>
-      <label className="dato" id="datoSemestre">
+      <label className="info-box__dato">
         {props.userInfo.hasOwnProperty("Semestre académico")
           ? props.userInfo["Semestre académico"]
           : "----"}
       </label>
       {tanda.hasOwnProperty("error") ? (
-        <div id="errorTanda">
+        <div id="error-tanda">
           <h3>{tanda.error.reason}</h3>
         </div>
       ) : (
         props.showTanda && (
-          <div className="tandaMatricula">
-            <label className="lblMatricula">Matrícula </label>
-            <div className="tandaParams">
+          <div className="tanda-matricula">
+            <label id="lbl-matricula">Matrícula </label>
+            <div className="tanda-params">
               <label>Tanda: </label>
-              <label className="tandaDatos" id="datoTanda">
+              <label className="tanda__dato">
                 {tanda.hasOwnProperty("Tanda") ? tanda.Tanda : "----"}
               </label>
             </div>
-            <div className="tandaParams">
+            <div className="tanda-params">
               <label>Fecha: </label>
-              <label className="tandaDatos" id="datoFecha">
+              <label className="tanda__dato">
                 {tanda.hasOwnProperty("Día") ? tanda["Día"] : "----"}
               </label>
             </div>
-            <div className="tandaParams">
+            <div className="tanda-params">
               <label>Hora: </label>
-              <label className="tandaDatos" id="datoHora">
+              <label className="tanda__dato">
                 {tanda.hasOwnProperty("Horario") ? tanda.Horario.replace(":00", "") : "----"}
               </label>
             </div>

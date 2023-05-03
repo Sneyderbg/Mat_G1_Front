@@ -22,9 +22,9 @@ export function CoursesTable(props) {
   }, [props.userInfo, props.endpoint]);
 
   return (
-    <div className="tabla">
+    <div className="tabla-cursos">
       {courses.code === "ERR_BAD_REQUEST" ? (
-        <div id="errorCursos">
+        <div id="error-cursos">
           <h3>{courses.customMessage}</h3>
         </div>
       ) : (

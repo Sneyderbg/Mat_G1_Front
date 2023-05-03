@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./MainPage.css";
 import { OfertaDeMaterias } from "./oferta/OfertaDeMaterias";
 import { NavBar } from "./NavBar";
 import { BlankPage } from "./blank/blankPage";
@@ -15,13 +14,13 @@ export function MainPage(props) {
 
   return (
     <div>
-      <div className="centeredTitle">
+      <header>
         <h1>Proceso de matrícula</h1>
-      </div>
-      <div className="mainPage">
+      </header>
+      <main>
         <NavBar activeBtnIdx={currentPageNumber} changePageNumber={setCurrentPageNumber}></NavBar>
         {getCurrentPage(currentPageNumber)}
-      </div>
+      </main>
     </div>
   );
 }

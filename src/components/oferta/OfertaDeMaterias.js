@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./OfertaDeMaterias.css";
+
 import { GroupsPopup } from "./GroupsPopup";
 import { CoursesTable } from "./CoursesTable";
 import { GeneralInfo } from "./GeneralInfo";
@@ -30,7 +30,7 @@ export function OfertaDeMaterias(props) {
   }, [USER_ID]);
 
   return (
-    <div className="defaultDiv">
+    <div className="default-div">
       <GroupsPopup
         showYourself={showGroupsPopup}
         endpoint={cfg.API_URL + cfg.endpoints.ACADEMIC_SCHEDULE}
@@ -49,7 +49,7 @@ export function OfertaDeMaterias(props) {
           userInfo={userInfo}
           showTanda={showTanda}
         ></GeneralInfo>
-        <div className="obligatorias">
+        <div className="sub-title--left">
           <label>Materias obligatorias </label>
         </div>
         <CoursesTable
@@ -60,12 +60,12 @@ export function OfertaDeMaterias(props) {
           }}
           setCourseId={setCourseId}
         ></CoursesTable>
-        <div className="electivas">
+        <div className="sub-title--left">
           <label>No tiene materias electivas en su oferta </label>
         </div>
-        <div className="botonesFinales">
-          <button id="btnImprimir">Imprimir</button>
-          <button id="btnOtro">Elegir otro programa</button>
+        <div id="botones-finales">
+          <button>Imprimir</button>
+          <button>Elegir otro programa</button>
           <div></div>
         </div>
       </div>

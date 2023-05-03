@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { GroupsTable } from "./GroupsTable";
-import "./GroupsPopup.css";
 
+import { GroupsTable } from "./GroupsTable";
 /**
  * Componente que muestra la información de los grupos de un curso.
  *
@@ -21,12 +20,12 @@ export function GroupsPopup(props) {
   }, [props.courseId, props.endpoint]);
 
   return props.showYourself ? (
-    <div className="popup-background">
-      <div id="popup" className="popup">
-        <div id="txtpopuptitle" className="txtpopuptitle">
+    <div className="groups-popup__background">
+      <div className="groups-popup">
+        <div className="groups-popup__title">
           Grupos y horarios disponibles para esta materia
         </div>
-        <div id="txtcourse" className="txtcourse">
+        <div className="groups-popup__text">
           {groups.code === "ERR_BAD_REQUEST"
             ? groups.customMessage
             : groups.length > 0
@@ -34,18 +33,13 @@ export function GroupsPopup(props) {
             : "Cargando información..."}
         </div>
         <GroupsTable
-          className="groupsTable"
           groupsList={groups.code !== "ERR_BAD_REQUEST" ? groups : []}
         ></GroupsTable>
-        <div id="btnback" className="btnback">
-          <button
-            id="btnClosePopup"
-            className="btnClosePopup"
-            onClick={() => props.setTrigger(false)}
-          >
-            Regresar
-          </button>
-        </div>
+        <button
+          onClick={() => props.setTrigger(false)}
+        >
+          Regresar
+        </button>
       </div>
     </div>
   ) : (

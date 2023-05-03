@@ -1,4 +1,3 @@
-import "./NavBar.css";
 /**
  * Componente de la barra de navegación lateral.
  *
@@ -20,7 +19,7 @@ export function NavBar(props) {
         return (
           <button
             key={idx}
-            className={`navbar-btn ${idx === props.activeBtnIdx ? "navbar-btn-active" : ""}`}
+            className={`navbar-btn ${idx === props.activeBtnIdx ? "navbar-btn--active" : ""}`}
             onClick={() => props.changePageNumber(idx)}
           >
             {btnName}
