@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { getCoursesByLevel } from "../../utils/CommonRequests";
 
 /**
  * Componente que muestra la tabla de los cursos obligatorios ofertados.
@@ -13,18 +13,14 @@ export function CoursesTable(props) {
   // Actualiza la lista de cursos cada vez que cambie la información del usuario
   useEffect(() => {
     if (props.userInfo.hasOwnProperty("Semestre académico")) {
-      getCoursesByLevel(props.userInfo["Semestre académico"], props.endpoint)
-        .then((res) => setCourses(res))
-        .catch((err) => {
-          console.error(err);
-        });
+      getCoursesByLevel(props.userInfo["Semestre académico"]).then((res) => setCourses(res));
     }
-  }, [props.userInfo, props.endpoint]);
+  }, [props.userInfo]);
 
   return (
     <div className="tabla-cursos">
-      {courses.code === "ERR_BAD_REQUEST" ? (
-        <div id="error-cursos">
+      {courses.status !== "ok" ? (
+        <div className="error-box">
           <h3>{courses.customMessage}</h3>
         </div>
       ) : (
@@ -38,7 +34,7 @@ export function CoursesTable(props) {
             </tr>
           </thead>
           <tbody>
-            {courses.map((course, idx) => {
+            {courses.list.map((course, idx) => {
               return (
                 <tr key={idx}>
                   <td>{course["IDCurso"]}</td>
@@ -62,26 +58,4 @@ export function CoursesTable(props) {
       )}
     </div>
   );
-}
-
-/**
- * Consulta la lista de cursos según el nivel académico dado.
- *
- * @param {*} level Nivel académico de los cursos a consultar
- * @param {*} endpoint Endpoint para hacer la consulta.
- * @returns Promise con la lista de los cursos.
- */
-async function getCoursesByLevel(level, endpoint) {
-  const sample_courses = await axios
-    .get(endpoint, {
-      params: { Nivel: level },
-    })
-    .then((res) => res.data)
-    .catch((err) => {
-      const error = { ...err, customMessage: "Error al obtener la información de los cursos." };
-      console.error(error.customMessage, err);
-      return error;
-    });
-
-  return sample_courses;
 }

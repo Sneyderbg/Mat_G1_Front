@@ -4,6 +4,11 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+:root {
+    position: auto;
+    /*TODO: declare global colors*/
+}
+
 header {
     width: 100%;
     height: 100%;
@@ -58,15 +63,11 @@ button:hover {
     }
 }
 
-.title--center {
-    text-align: center;
-}
-
 .default-div {
     display: flex;
     gap: 0;
 
-    position: absolute;
+    position: relative;
     left: 0;
     right: 0;
     height: fit-content;
@@ -78,7 +79,7 @@ button:hover {
 }
 
 .navbar {
-    position: fixed;
+    position: absolute;
     width: max-content;
     height: max-content;
     display: flex;
@@ -151,7 +152,7 @@ button:hover {
     padding-right: 5vw;
 }
 
-.info-box {
+.default-box, .btn-box {
     box-sizing: border-box;
     width: 100%;
     height: fit-content;
@@ -160,12 +161,22 @@ button:hover {
     padding: 5px 10px;
     margin: 10px 10px;
     border-width: 50px;
-    border-radius: 2.5mm 2.5mm 0 0;
     color: #3A3535;
     background-color: #F0F0F0;
 }
 
-.info-box__dato {
+.upper-rounded {
+    border-top-left-radius: 2.5mm;
+    border-top-right-radius: 2.5mm;
+}
+
+.lower-rounded {
+    border-bottom-left-radius: 2.5mm;
+    border-bottom-right-radius: 2.5mm;
+    margin-bottom: 40px;
+}
+
+.default-box__dato {
     font-weight: 400;
 }
 
@@ -250,37 +261,33 @@ button:hover {
     font-weight: 500;
 }
 
-#error-tanda {
+.flex-box {
     display: flex;
     justify-content: center;
+    text-align: center;
 }
 
-#error-cursos {
-    display: flex;
-    justify-content: center;
+.error-box h1,
+.error-box h2,
+.error-box h3,
+.error-box p {
+    color: #AD1919;
 }
 
-#botones-finales {
+.btn-box {
+    padding: 15px 10px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     column-gap: 2em;
-
-    width: 100%;
-    padding: 15px 10px;
-    margin: 15px 0px;
-    box-sizing: border-box;
-    border-width: 50px;
-    border-radius: 0 0 2.5mm 2.5mm;
-
-    background-color: #F0F0F0;
 }
 
-#botones-finales button {
+.btn-box button {
     height: 38px;
-    font-size: 16px;
+    text-align: center;
     font-weight: 500;
+    font-size: 16px;
 }
 
 .groups-popup__background {

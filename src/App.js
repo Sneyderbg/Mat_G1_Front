@@ -1,6 +1,6 @@
 import "./App.css";
 import { MainPage } from "./components/MainPage";
-import cfg from "./config.json";
+import cfg from "./utils/config.json";
 
 function App() {
   return (

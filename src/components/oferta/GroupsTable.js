@@ -16,6 +16,7 @@ export function GroupsTable(props) {
         </tr>
       </thead>
       <tbody>
+        {console.log(props.groupsList)}
         {props.groupsList.map((group, idx) => {
           return (
             <tr key={idx}>

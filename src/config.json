@@ -1,9 +1,0 @@
-{
-  "API_URL": "http://localhost:4000/",
-  "endpoints": {
-    "ACADEMIC_SCHEDULE": "ProgramacionAcademica",
-    "TANDAS": "HorarioTandas",
-    "COURSES": "CursosIngenieriaSistemas",
-    "STUDENTS": "ListadoEstudiantes"
-  }
-}

@@ -1,6 +1,4 @@
-
-
-export function BlankPage() {
+export function BlankPage() {  
   return (
     <div className="default-div">
       <div className="body">
