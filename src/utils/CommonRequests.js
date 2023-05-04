@@ -85,27 +85,31 @@ export async function getCourseGroups(courseId) {
 
 function handleError(err, customMsg) {
   var info = "";
+  var status = "";
   if (err.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
     console.error("Error");
-    info = "Hubo respuesta del servidor.";
+    info = "Hubo respuesta del servidor, pero ocurrió un error.";
+    status = "error"
   } else if (err.request) {
     // The request was made but no response was received
     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
     // http.ClientRequest in node.js
-    console.error("Response Error");
+    console.error("Server Error");
     info = "No hubo respuesta del servidor.";
+    status = "server-error"
   } else {
     // Something happened in setting up the request that triggered an Error
     console.error("Request Error");
     info = "Error en la configuración de la solicitud.";
+    status = "request-error"
   }
 
   console.error(err);
 
   return {
-    status: "error",
+    status: status,
     customMessage: customMsg,
     info: info,
   };

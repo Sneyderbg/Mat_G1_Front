@@ -3,7 +3,7 @@ import { getTanda } from "../../utils/CommonRequests";
 /**
  * Componente que describe la información general de la oferta de matriculas.
  *
- * @param {*} props Propiedades = {userInfo, endpoint, showTanda}.
+ * @param {*} props Propiedades = {userInfo, showTanda}.
  * @returns Render del componente.
  */
 export function GeneralInfo(props) {
@@ -44,7 +44,7 @@ export function GeneralInfo(props) {
           : "----"}
       </label>
       {tanda.status !== "ok" ? (
-        <div className="error-box">
+        <div className="flex-box error-box">
           <h3>{tanda.customMessage}</h3>
         </div>
       ) : (

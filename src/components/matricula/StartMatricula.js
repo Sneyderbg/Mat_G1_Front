@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { getUserInfo } from "../../utils/CommonRequests";
 import { getTanda } from "../../utils/CommonRequests";
+import { GeneralInfo } from "../oferta/GeneralInfo";
 
 export function StartMatricula(props) {
   // const [matriculando, setMatriculando] = useState(false);
-  const [validatedState, setValidatedState] = useState({});
+  const [validatedState, setValidatedState] = useState(
+    props.userInfo.status === "ok" ? {} : { status: props.userInfo.status }
+  );
 
   return (
     <div className="default-div">
@@ -15,6 +18,8 @@ export function StartMatricula(props) {
           tu tanda. Recuerda que puedes consultar tu tanda en la sección "Oferta de materias" del
           Portal Web Universitario.
         </p>
+        {console.log(props.userInfo)}
+        <GeneralInfo userInfo={props.userInfo} showTanda={true}></GeneralInfo>
         {validatedState.status ? (
           getComponentFromStatus(validatedState.status)
         ) : (
@@ -22,9 +27,13 @@ export function StartMatricula(props) {
             <button
               onClick={() => {
                 setValidatedState({ status: "validating" });
-                validateMatricula(props.userId)
-                  .then((res) => setValidatedState(res))
-                  .catch((err) => console.error(err));
+                if (props.userInfo.Id) {
+                  validateMatricula(props.userInfo.Id)
+                    .then((res) => setValidatedState(res))
+                    .catch((err) => console.error(err));
+                } else {
+                  setValidatedState({ status: "undefined-user" });
+                }
               }}
             >
               Iniciar proceso de matrícula
@@ -87,11 +96,21 @@ function getComponentFromStatus(status) {
         </div>
       );
 
+    case "server-error":
+      return (
+        <div className="default-box lower-rounded">
+          <div className="flex-box error-box">
+            <h2>Hay problemas con el servidor, intentelo más tarde.</h2>
+          </div>
+        </div>
+      );
+
     default:
       return (
         <div className="default-box lower-rounded">
           <div className="flex-box error-box">
             <h2>Error al validar tu matrícula</h2>
+            <h2>{status}</h2>
           </div>
         </div>
       );

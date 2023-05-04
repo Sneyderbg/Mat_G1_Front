@@ -20,7 +20,7 @@ export function CoursesTable(props) {
   return (
     <div className="tabla-cursos">
       {courses.status !== "ok" ? (
-        <div className="error-box">
+        <div className="flex-box error-box">
           <h3>{courses.customMessage}</h3>
         </div>
       ) : (

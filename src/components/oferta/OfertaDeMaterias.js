@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 
 import { GroupsPopup } from "./GroupsPopup";
 import { CoursesTable } from "./CoursesTable";
 import { GeneralInfo } from "./GeneralInfo";
-
-import { getUserInfo } from "../../utils/CommonRequests";
 
 /**
  * Página principal de la oferta de materias.
@@ -16,11 +14,6 @@ export function OfertaDeMaterias(props) {
   const showTanda = true;
   const [showGroupsPopup, setShowGroupsPopup] = useState(false);
   const [courseId, setCourseId] = useState(10002);
-  const [userInfo, setUserInfo] = useState({});
-
-  useEffect(() => {
-    getUserInfo(props.userId).then((res) => setUserInfo(res));
-  }, [props.userId]);
 
   return (
     <div className="default-div">
@@ -36,18 +29,18 @@ export function OfertaDeMaterias(props) {
           día, hora y tanda en la cual debes matricularte a través del Portal Web Universitario,
           identificándote con usuario y contraseña.
         </p>
-        {userInfo.status === "ok" ? (
-          <GeneralInfo userInfo={userInfo} showTanda={showTanda}></GeneralInfo>
+        {props.userInfo.status === "ok" ? (
+          <GeneralInfo userInfo={props.userInfo} showTanda={showTanda}></GeneralInfo>
         ) : (
           <div className="error-box">
-            <h2>{userInfo.customMessage}</h2>
+            <h2>{props.userInfo.customMessage}</h2>
           </div>
         )}
         <div className="sub-title--left">
           <label>Materias obligatorias </label>
         </div>
         <CoursesTable
-          userInfo={userInfo}
+          userInfo={props.userInfo}
           showGroupsPopup={() => {
             setShowGroupsPopup(true);
           }}

@@ -1,8 +1,9 @@
-import { useState} from "react";
+import { useState, useEffect } from "react";
 import { NavBar } from "./NavBar";
 import { BlankPage } from "./blank/blankPage";
 import { OfertaDeMaterias } from "./oferta/OfertaDeMaterias";
 import { StartMatricula } from "./matricula/StartMatricula";
+import { getUserInfo } from "../utils/CommonRequests";
 
 /**
  * Componente que renderiza la página principal (o página general) de la app web.
@@ -12,7 +13,12 @@ import { StartMatricula } from "./matricula/StartMatricula";
  */
 export function MainPage(props) {
   const [currentPageNumber, setCurrentPageNumber] = useState(2);
+  const [userInfo, setUserInfo] = useState({});
 
+  useEffect(() => {
+    getUserInfo(props.cfg.USER_ID).then((res) => setUserInfo(res));
+  }, [props.cfg.USER_ID]);
+  
   return (
     <div>
       <header>
@@ -20,19 +26,19 @@ export function MainPage(props) {
       </header>
       <main>
         <NavBar activeBtnIdx={currentPageNumber} changePageNumber={setCurrentPageNumber}></NavBar>
-        {getCurrentPage(currentPageNumber, props.cfg)}
+        {getCurrentPage(currentPageNumber, userInfo)}
       </main>
     </div>
   );
 }
 
-function getCurrentPage(idx, cfg) {
+function getCurrentPage(idx, userInfo) {
   switch (idx) {
     case 2:
-      return <OfertaDeMaterias userId={cfg.USER_ID}></OfertaDeMaterias>;
+      return <OfertaDeMaterias userInfo={userInfo}></OfertaDeMaterias>;
 
     case 3:
-      return <StartMatricula userId={cfg.USER_ID}></StartMatricula>;
+      return <StartMatricula userInfo={userInfo}></StartMatricula>;
 
     default:
       return <BlankPage></BlankPage>;
