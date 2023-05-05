@@ -13,7 +13,7 @@ import { GeneralInfo } from "./GeneralInfo";
 export function OfertaDeMaterias(props) {
   const showTanda = true;
   const [showGroupsPopup, setShowGroupsPopup] = useState(false);
-  const [courseId, setCourseId] = useState(10002);
+  const [courseId, setCourseId] = useState(0);
 
   return (
     <div className="default-div">

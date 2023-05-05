@@ -12,7 +12,7 @@ import { getUserInfo } from "../utils/CommonRequests";
  * @returns Render del componente.
  */
 export function MainPage(props) {
-  const [currentPageNumber, setCurrentPageNumber] = useState(2);
+  const [currentPageNumber, setCurrentPageNumber] = useState(0);
   const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {

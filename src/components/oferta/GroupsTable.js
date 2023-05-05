@@ -16,20 +16,23 @@ export function GroupsTable(props) {
         </tr>
       </thead>
       <tbody>
-        {console.log(props.groupsList)}
         {props.groupsList.map((group, idx) => {
           return (
             <tr key={idx}>
-              <td>{group.Grupo}</td>
-              <td>{group.CuposDisponibles - group.Matriculados}</td>
-              <td>(No hay)</td>
-              <td>
-                {group.Horario.replaceAll(":00", "").replaceAll(" ", "").replaceAll(";", " ")}
-              </td>
+              <td>{`${group.grupoId}-${group.numeroGrupo}`}</td>
+              <td>-1</td>
+              {/*FIXME: no quotas in response*/}
+              <td>{group.aula}</td>
+              <td>{formatHorario(group.horario)}</td>
             </tr>
           );
         })}
       </tbody>
     </table>
   );
+}
+
+//TODO: implement
+function formatHorario(horario) {
+  return horario;
 }

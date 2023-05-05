@@ -24,4 +24,5 @@ yarn-error.log*
 
 #sample database
 db.json
+back.js
 .vscode
