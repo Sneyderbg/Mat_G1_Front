@@ -23,6 +23,9 @@ yarn-debug.log*
 yarn-error.log*
 
 #sample database
-db*.*
+create-db.js
+db.js
+db.json
 back.js
+routes.json
 .vscode

@@ -31,7 +31,13 @@ TODO: añadir descripción
 En otra terminal:
 
 ```console
-json-server -p 4000 -w .\db.json
+json-server -p 4000 -d 500 --routes .\routes.json -w .\db.json
 ```
 
->donde **_db.json_** es un archivo json que simula los datos de prueba, puede descargar el archivo base [aquí](https://drive.google.com/file/d/1GnYU-lIpAMOnwXR5E4IgixdmiZYVIkFc/view?usp=share_link)
+Luego en el archivo de configuración *./src/utils/config.json* cambiar la url *API_URL* por **http://localhost:4000**
+
+
+----------
+>donde **_db.json_** es un archivo json que simula los datos de prueba y **_routes.json_** es el archivo para enrutar los endpoints, los puede descargar desde [este enlace](https://drive.google.com/drive/folders/1qXAaK7NFVH1zOViZdvUJvCtVgfej4rp9?usp=share_link).
+>
+>Estos archivos deben ir en el directorio raíz.

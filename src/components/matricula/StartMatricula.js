@@ -6,7 +6,7 @@ export function StartMatricula(props) {
 	const [validatedState, setValidatedState] = useState(
 		props.userInfo.status === "ok" ? {} : { status: props.userInfo.status }
 	);
-
+	
 	return (
 		<div className="default-div">
 			<div className="body">
@@ -42,6 +42,7 @@ export function StartMatricula(props) {
 	);
 }
 
+//TODO: comprobar que aún no haya matriculado
 async function validateMatricula(userInfo) {
   
 	const currentDate = new Date();
