@@ -23,6 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 #sample database
-db.json
+db*.*
 back.js
 .vscode
