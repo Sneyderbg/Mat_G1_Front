@@ -1,6 +1,6 @@
 {
-  "USER_ID": 1,
-  "API_URL": "http://localhost:8080",
+  "USER_ID": 7952,
+  "API_URL": "http://192.168.137.1:4000",
   "endpoints": {
     "STUDENTS": "/estudiante",
     "OFFER": "/oferta",

@@ -42,7 +42,7 @@ export function GeneralInfo(props) {
             <label id="lbl-matricula">Matrícula </label>
             <div className="tanda-params">
               <label>Tanda: </label>
-              <label className="tanda__dato">
+              <label className="tanda__dato important-label">
                 {props.userInfo.tanda.hasOwnProperty("numero")
                   ? props.userInfo.tanda.numero
                   : "----"}
@@ -50,7 +50,7 @@ export function GeneralInfo(props) {
             </div>
             <div className="tanda-params">
               <label>Fecha: </label>
-              <label className="tanda__dato">
+              <label className="tanda__dato important-label">
                 {tandaDate !== null
                   ? `${tandaDate.getDate()}-${tandaDate.getMonth() + 1}-${tandaDate.getFullYear()}`
                   : "----"}
@@ -58,7 +58,7 @@ export function GeneralInfo(props) {
             </div>
             <div className="tanda-params">
               <label>Hora: </label>
-              <label className="tanda__dato">
+              <label className="tanda__dato important-label">
                 {tandaDate !== null
                   ? `${tandaDate.getHours()}:${tandaDate.getMinutes()}`
                   : "----"}

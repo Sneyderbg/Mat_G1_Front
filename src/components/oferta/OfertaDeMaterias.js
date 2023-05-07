@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState } from "react";
 
 import { GroupsPopup } from "./GroupsPopup";
 import { CoursesTable } from "./CoursesTable";
@@ -7,7 +7,7 @@ import { GeneralInfo } from "./GeneralInfo";
 /**
  * Página principal de la oferta de materias.
  *
- * @param {*} props Object{}
+ * @param {*} props = {userInfo}
  * @returns Render de la página.
  */
 export function OfertaDeMaterias(props) {
@@ -17,12 +17,12 @@ export function OfertaDeMaterias(props) {
 
   return (
     <div className="default-div">
-      <GroupsPopup
-        showYourself={showGroupsPopup}
-        courseId={courseId}
-        setTrigger={setShowGroupsPopup}
-      ></GroupsPopup>
       <div className="body">
+        <GroupsPopup
+          visible={showGroupsPopup}
+          courseId={courseId}
+          fnClose={() => setShowGroupsPopup(false)}
+        ></GroupsPopup>
         <h2>Oferta de materias</h2>
         <p>
           Aquí encontrarás las materias que puedes matricular en este periodo académico, además del
@@ -41,10 +41,10 @@ export function OfertaDeMaterias(props) {
         </div>
         <CoursesTable
           userInfo={props.userInfo}
-          showGroupsPopup={() => {
+          fnOnBtnClick={() => {
             setShowGroupsPopup(true);
           }}
-          setCourseId={setCourseId}
+          fnSetCourseId={setCourseId}
         ></CoursesTable>
         <div className="sub-title--left">
           <label>No tiene materias electivas en su oferta </label>

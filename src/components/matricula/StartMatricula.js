@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { GeneralInfo } from "../oferta/GeneralInfo";
+import { MatriculaForm } from "./MatriculaForm";
 
 export function StartMatricula(props) {
 	// const [matriculando, setMatriculando] = useState(false);
@@ -16,9 +17,9 @@ export function StartMatricula(props) {
 					tu tanda. Recuerda que puedes consultar tu tanda en la sección "Oferta de materias" del
 					Portal Web Universitario.
 				</p>
-				<GeneralInfo userInfo={props.userInfo} showTanda={false}></GeneralInfo>
+				<GeneralInfo userInfo={props.userInfo} showTanda={true}></GeneralInfo>
 				{validatedState.status ? (
-					getComponentFromStatus(validatedState.status)
+					getComponentFromStatus(validatedState.status, props.userInfo)
 				) : (
 					<div className="btn-box upper-rounded lower-rounded">
 						<button
@@ -44,11 +45,9 @@ export function StartMatricula(props) {
 
 //TODO: comprobar que aún no haya matriculado
 async function validateMatricula(userInfo) {
-  
 	const currentDate = new Date();
 	const tandaDate = new Date(userInfo.tanda.horario);
 
-	//FIXME: cambiar a > para que funcione
 	if (currentDate > tandaDate) {
 		return { status: "valid" };
 	} else {
@@ -56,16 +55,10 @@ async function validateMatricula(userInfo) {
 	}
 }
 
-function getComponentFromStatus(status) {
+function getComponentFromStatus(status, userInfo) {
 	switch (status) {
 		case "valid":
-			return (
-				<div className="default-box lower-rounded">
-					<div className="flex-box">
-						<h2>Puedes iniciar matrícula</h2>
-					</div>
-				</div>
-			);
+			return <MatriculaForm userInfo={userInfo}></MatriculaForm>;
 
 		case "invalid":
 			return (

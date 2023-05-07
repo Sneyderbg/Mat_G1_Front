@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
-* {
-    font-family: 'Montserrat', sans-serif;
-}
-
 :root {
     position: auto;
     /*TODO: declare global colors*/
+}
+
+* {
+    font-family: 'Montserrat', sans-serif;
+    font-size: medium;
 }
 
 header {
@@ -16,30 +17,36 @@ header {
 }
 
 h1 {
-    font-size: 30px;
+    font-size: 2em;
     font-weight: 600;
     color: #0D4928;
 }
 
 h2 {
-    font-size: 27px;
+    font-size: 1.5em;
     font-weight: 500;
     color: #0D4928;
 }
 
 h3 {
-    font-size: 20px;
+    font-size: 1.1em;
     font-weight: 500;
     color: #AD1919;
 }
 
 p {
-    font-size: 18px;
+    font-size: 1em;
     font-weight: 400;
 }
 
 button {
     height: fit-content;
+    width: fit-content;
+    text-align: center;
+    font-size: 1em;
+    font-weight: 500;
+    padding: 0.5em;
+
     border: none;
     border-radius: 1.5mm;
     color: #332F2F;
@@ -93,7 +100,28 @@ button:hover {
     box-shadow: rgba(0, 0, 0, 0.2) -5px 5px 20px;
 }
 
-@media screen and (max-width: 1200px) {
+.body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: left;
+    gap: 2vh;
+    margin: 0px 1vw;
+
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    padding-left: 5vw;
+    padding-right: 5vw;
+}
+
+@media screen and (max-width: 1100px) {
+
+    .body {
+        margin: 0 0.5vw;
+    }
+
     .navbar {
         position: absolute;
         margin-top: 20px;
@@ -108,7 +136,43 @@ button:hover {
         margin-left: 0;
         justify-content: center;
     }
+
+    .popup {
+        padding: 3em 6em !important;
+    }
+
 }
+
+@media screen and (max-width: 800px) {
+    * {
+        font-size: 12pt;
+    }
+    
+    td, th {
+        padding: 0.15em 0.25em !important;
+    }
+
+    th {
+        font-size: 1em !important;
+    }
+    
+    td {
+        font-size: 0.9em !important;
+    }
+
+    .popup {
+        padding: 3.8em 4em !important;
+    }
+    
+}
+
+@media screen and (max-width: 400px) {
+    * {
+        font-size: 10pt;
+    }
+
+}
+
 
 .navbar-btn {
     font-size: 16px;
@@ -136,27 +200,11 @@ button:hover {
     transition: .309s;
 }
 
-.body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    text-align: left;
-    gap: 2vw;
-    margin: 0px 60px;
-
-    position: relative;
-    width: 100%;
-    height: fit-content;
-    padding-left: 5vw;
-    padding-right: 5vw;
-}
-
 .default-box, .btn-box {
     box-sizing: border-box;
     width: 100%;
     height: fit-content;
-    font-size: 18px;
+    font-size: 1em;
     font-weight: 600;
     padding: 5px 10px;
     margin: 10px 10px;
@@ -208,9 +256,13 @@ button:hover {
 }
 
 .tanda__dato {
-    color: #AD1919;
     margin-right: 2em;
 }
+
+.important-label {
+    color: #AD1919;
+}
+
 
 .sub-title--left {
     box-sizing: border-box;
@@ -228,44 +280,21 @@ button:hover {
     margin-left: 0.3em;
 }
 
-.tabla-cursos {
-    width: 100%;
-}
-
-.tabla-cursos table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.tabla-cursos thead {
-    font-size: 20px;
-    font-weight: 600;
-    text-align: center;
-    color: #3A3535;
-    background-color: #E2E0E0;
-}
-
-.tabla-cursos td {
-    font-size: 18px;
-    font-weight: 400;
-    text-align: center;
-    padding: 4px 8px;
-    /* width: 573.03px; */
-    color: #3A3535;
-    background-color: #F0F0F0;
-}
-
-.tabla-cursos button {
-    padding: 6px;
-    font-size: 16px;
-    font-weight: 500;
-}
-
 .flex-box {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
+}
+
+.flex-box--horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    gap: 4em;
+
+    padding: 1em;
 }
 
 .error-box h1,
@@ -284,14 +313,7 @@ button:hover {
     column-gap: 2em;
 }
 
-.btn-box button {
-    height: 38px;
-    text-align: center;
-    font-weight: 500;
-    font-size: 16px;
-}
-
-.groups-popup__background {
+.popup__background {
     position: fixed;
     left: 0;
     right: 0;
@@ -307,17 +329,20 @@ button:hover {
     animation-duration: 0.3s;
 }
 
-.groups-popup {
+.popup {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 60px 100px;
-    gap: 30px;
+    padding: 3.6em 5.2em;
+    gap: 1.8em;
+
+    font-size: 0.9em;
 
     position: absolute;
     width: fit-content;
     height: fit-content;
+    min-width: 20em;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -327,66 +352,80 @@ button:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.groups-popup__title {
+.popup__title {
     width: fit-content;
     height: fit-content;
 
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 1.2em;
     text-align: center;
 
     color: #0D4928;
 }
 
-.groups-popup__text {
+.popup__text {
     width: fit-content;
     height: fit-content;
 
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 1em;
     line-height: 20px;
 
     text-align: center;
 }
 
-.groups-popup button {
-    font-size: 16px;
-    font-weight: 500;
-    padding: 10px;
+.fill-horizontal {
+    width: 100%;
 }
 
-.groups-table {
+.primary-table {
+    font-size: 1em;
+    font-weight: 600px;
+}
 
-    width: 25em;
+.secondary-table th {
+    font-size: 0.9em;
+    font-weight: 400px;
+}
+
+.secondary-table td {
+    font-size: 0.8em;
+    font-weight: 400px;
+}
+
+.secondary-table th, td {
+    padding: 0.1em 0.4em;
+}
+
+table {
+    width: fit-content;
     height: fit-content;
     text-align: center;
     vertical-align: middle;
-
-    font-weight: 400px;
-    font-size: 16px;
-
-    line-height: 20px;
-    border-width: 10px;
-    border-radius: 0px 0px 12px 12px;
-    padding: 10px;
-    margin: 0px;
-    overflow: hidden;
     border-collapse: collapse;
 }
 
-.groups-table thead {
+thead {
     background-color: rgba(0, 0, 0, 0.23);
 }
 
-.groups-table tbody {
+tbody {
     background-color: #eaeaea;
 }
 
-.groups-table td {
-    height: 30px;
+td, th {
+    height: 2em;
+    padding: 0.2em 1em;
+}
+
+th {
+    font-size: 1.1em;
+}
+
+td {
+    font-size: 1em;
 }
