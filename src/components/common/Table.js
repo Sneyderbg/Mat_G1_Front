@@ -38,7 +38,6 @@ function checkProps(props) {
     throw new Error("Table head must have at least one element");
   }
   if (props.body.length === 0) {
-    console.log(props.body);
     throw new Error("Table body must have at least one element");
   }
   // if (props.head.length !== props.body.length) {

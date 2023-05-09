@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getOferta } from "../../utils/CommonRequests";
+import { STATUS, getOferta } from "../../utils/CommonRequests";
 import { Table } from "../common/Table";
 
 /**
@@ -9,19 +9,19 @@ import { Table } from "../common/Table";
  * @returns Render del componente.
  */
 export function CoursesTable(props) {
-  const [oferta, setOferta] = useState({ status: undefined });
+  const [oferta, setOferta] = useState({ status: STATUS.PENDING });
 
   // Actualiza la lista de cursos cada vez que cambie la información del usuario
   useEffect(() => {
-    setOferta({ status: "pending" });
-    if (props.userInfo.status === "ok") {
+    setOferta({ status: STATUS.PENDING });
+    if (props.userInfo.status === STATUS.OK) {
       getOferta(props.userInfo.ofertaId).then((res) => setOferta(res));
     }
   }, [props.userInfo]);
 
   return (
     <div className="fill-horizontal">
-      {oferta.status !== "ok" ? (
+      {oferta.status !== STATUS.OK ? (
         oferta.status === "pending" ? (
           <div className="flex-box">
             <h3>Cargando cursos...</h3>
@@ -32,37 +32,6 @@ export function CoursesTable(props) {
           </div>
         )
       ) : (
-        // <table>
-        //   <thead>
-        //     <tr>
-        //       <th>Código</th>
-        //       <th>Materia</th>
-        //       <th>Créditos</th>
-        //       <th>Horario</th>
-        //     </tr>
-        //   </thead>
-        //   <tbody>
-        //     {oferta.materiasList.map((course, idx) => {
-        //       return (
-        //         <tr key={idx}>
-        //           <td>{course.id}</td>
-        //           <td>{course.nombre}</td>
-        //           <td>{course.creditos}</td>
-        //           <td>
-        //             <button
-        //               onClick={() => {
-        //                 props.fnSetCourseId(course.id);
-        //                 props.fnOnBtnClick();
-        //               }}
-        //             >
-        //               Ver Grupos
-        //             </button>
-        //           </td>
-        //         </tr>
-        //       );
-        //     })}
-        //   </tbody>
-        // </table>
         <Table className="fill-horizontal primary-table"
           head={["Código", "Materia", "Créditos", "Grupos"]}
           body={oferta.materiasList.map((course, i) => {

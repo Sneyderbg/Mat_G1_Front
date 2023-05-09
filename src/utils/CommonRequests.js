@@ -1,6 +1,13 @@
 import cfg from "./config.json";
 import axios from "axios";
 
+export const STATUS = {
+  OK: Symbol(),
+	WARNING: Symbol(),
+  PENDING: Symbol(),
+  ERROR: Symbol(),
+};
+
 /**
  * Obtiene la información de un usuario por su id.
  *
@@ -8,30 +15,30 @@ import axios from "axios";
  * @returns Promise de la info.
  */
 export async function getUserInfo(userId) {
-	const response = await axios
-		.get(cfg.API_URL + cfg.endpoints.STUDENTS + "/" + userId, {
-			signal: cfg.BYPASS_TIMEOUTS ? undefined : AbortSignal.timeout(5000),
-		})
-		.then((res) => {
-			return { ...res.data, status: "ok" };
-		})
-		.catch((err) => handleError(err, "Error al obtener la información del usuario."));
+  const response = await axios
+    .get(cfg.API_URL + cfg.endpoints.STUDENTS + "/" + userId, {
+      signal: cfg.BYPASS_TIMEOUTS ? undefined : AbortSignal.timeout(5000),
+    })
+    .then((res) => {
+      return { ...res.data, status: STATUS.OK };
+    })
+    .catch((err) => handleError(err, "Error al obtener la información del usuario."));
 
-	return response;
+  return response;
 }
 
 export async function getOferta(idOferta) {
-	const response = await axios
-		.get(cfg.API_URL + cfg.endpoints.OFFER, {
-			signal: cfg.BYPASS_TIMEOUTS ? undefined : AbortSignal.timeout(5000),
-			params: { id: idOferta },
-		})
-		.then((res) => {
-			return { ...res.data, status: "ok" };
-		})
-		.catch((err) => handleError(err, "Error al obtener la información de la oferta."));
+  const response = await axios
+    .get(cfg.API_URL + cfg.endpoints.OFFER, {
+      signal: cfg.BYPASS_TIMEOUTS ? undefined : AbortSignal.timeout(5000),
+      params: { id: idOferta },
+    })
+    .then((res) => {
+      return { ...res.data, status: STATUS.OK };
+    })
+    .catch((err) => handleError(err, "Error al obtener la información de la oferta."));
 
-	return response;
+  return response;
 }
 /**
  * Consulta la lista de grupos de un curso.
@@ -40,50 +47,45 @@ export async function getOferta(idOferta) {
  * @returns Promise con lista de la información de los grupos.
  */
 export async function getGroupsByCourseId(courseId) {
-	const response = axios
-		.get(cfg.API_URL + cfg.endpoints.COURSES, {
-			signal: cfg.BYPASS_TIMEOUTS ? undefined : AbortSignal.timeout(5000),
-			params: {
-				codigo: courseId,
-			},
-		})
-		.then((res) => {
-			return { list: res.data, status: "ok" };
-		})
-		.catch((err) => handleError(err, "Error al cargar los grupos para esta materia."));
+  const response = axios
+    .get(cfg.API_URL + cfg.endpoints.COURSES, {
+      signal: cfg.BYPASS_TIMEOUTS ? undefined : AbortSignal.timeout(5000),
+      params: {
+        codigo: courseId,
+      },
+    })
+    .then((res) => {
+      return { list: res.data, status: STATUS.OK };
+    })
+    .catch((err) => handleError(err, "Error al cargar los grupos para esta materia."));
 
-	return response;
+  return response;
 }
 
 function handleError(err, customMsg) {
-	var info = "";
-	var status = "";
-	if (err.response) {
-		// The request was made and the server responded with a status code
-		// that falls out of the range of 2xx
-		console.error("Error");
-		info = "Hubo respuesta del servidor, pero ocurrió un error.";
-		status = "error";
-	} else if (err.request) {
-		// The request was made but no response was received
-		// `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-		// http.ClientRequest in node.js
-		console.error("Server Error");
-		info = "No hubo respuesta del servidor.";
-		status = "server-error";
-	} else {
-		// Something happened in setting up the request that triggered an Error
-		console.error("Request Error");
-		info = "Error en la configuración de la solicitud.";
-		status = "request-error";
-	}
+  var info = "";
+  var status = "";
+  if (err.response) {
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
+    info = "Error: Hubo respuesta del servidor, pero ocurrió un error.";
+  } else if (err.request) {
+    // The request was made but no response was received
+    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+    // http.ClientRequest in node.js
+    info = "ServerError: No hubo respuesta del servidor.";
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    info = "RequestError: Error en la configuración de la solicitud.";
+  }
 
-	console.error(err);
+	console.error(info);
+  console.error(err);
 
-	return {
-		status: status,
-		customMessage: customMsg,
-		info: info,
-		...err,
-	};
+  return {
+    status: STATUS.ERROR,
+    customMessage: customMsg,
+    info: info,
+    ...err,
+  };
 }

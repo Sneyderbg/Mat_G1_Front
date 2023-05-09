@@ -1,3 +1,5 @@
+import { STATUS } from "../../utils/CommonRequests";
+
 /**
  * Componente que describe la información general de la oferta de matriculas.
  *
@@ -32,7 +34,7 @@ export function GeneralInfo(props) {
       <label className="default-box__dato">
         {props.userInfo.hasOwnProperty("nroSemestre") ? props.userInfo.nroSemestre : "----"}
       </label>
-      {props.userInfo.status !== "ok" ? (
+      {props.userInfo.status !== STATUS.OK ? (
         <div className="flex-box error-box">
           <h3>{props.userInfo.customMessage}</h3>
         </div>
@@ -60,7 +62,9 @@ export function GeneralInfo(props) {
               <label>Hora: </label>
               <label className="tanda__dato important-label">
                 {tandaDate !== null
-                  ? `${tandaDate.getHours()}:${tandaDate.getMinutes()}`
+                  ? `${("0" + tandaDate.getHours()).slice(-2)}:${(
+                      "0" + tandaDate.getMinutes()
+                    ).slice(-2)}`
                   : "----"}
               </label>
             </div>

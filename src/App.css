@@ -41,7 +41,7 @@ p {
 
 button {
     height: fit-content;
-    width: fit-content;
+    width: max-content;
     text-align: center;
     font-size: 1em;
     font-weight: 500;
@@ -70,6 +70,16 @@ button:hover {
     }
 }
 
+@keyframes disappear {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
 .default-div {
     display: flex;
     gap: 0;
@@ -87,7 +97,7 @@ button:hover {
 
 .navbar {
     position: absolute;
-    width: max-content;
+    width: fit-content;
     height: max-content;
     display: flex;
     z-index: 50;
@@ -98,6 +108,10 @@ button:hover {
     margin-left: 6vw;
     background-color: rgba(13, 73, 40, 0.23);
     box-shadow: rgba(0, 0, 0, 0.2) -5px 5px 20px;
+}
+
+.navbar button {
+    width: auto;
 }
 
 .body {
@@ -147,15 +161,17 @@ button:hover {
     * {
         font-size: 12pt;
     }
-    
+
     td, th {
+        word-wrap: break-word !important;
+        max-width: 10px;
         padding: 0.15em 0.25em !important;
     }
 
     th {
         font-size: 1em !important;
     }
-    
+
     td {
         font-size: 0.9em !important;
     }
@@ -163,7 +179,7 @@ button:hover {
     .popup {
         padding: 3.8em 4em !important;
     }
-    
+
 }
 
 @media screen and (max-width: 400px) {
@@ -173,6 +189,29 @@ button:hover {
 
 }
 
+@media (pointer:none), (pointer:coarse) {
+    /* button:focus-within {
+        outline: none;
+        box-shadow: none;
+    } */
+
+    button:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    button:hover {
+        color: #332F2F;
+        background-color: rgba(116, 129, 121, 0.35);
+        transition: .15s;
+    }
+
+    button:active {
+        color: white;
+        background-color: rgba(13, 73, 40, 0.92);
+        transition: 0s;
+    }
+}
 
 .navbar-btn {
     font-size: 16px;
@@ -200,7 +239,7 @@ button:hover {
     transition: .309s;
 }
 
-.default-box, .btn-box {
+.default-box {
     box-sizing: border-box;
     width: 100%;
     height: fit-content;
@@ -211,6 +250,15 @@ button:hover {
     border-width: 50px;
     color: #3A3535;
     background-color: #F0F0F0;
+
+    animation-name: appear;
+    animation-duration: .309s;
+}
+
+.btn-box {
+    height: fit-content;
+    font-size: 1em;
+    font-weight: 600;
 }
 
 .upper-rounded {
@@ -329,6 +377,11 @@ button:hover {
     animation-duration: 0.3s;
 }
 
+.popup__background--disappearing {
+    animation-name: disappear;
+    animation-duration: 0.3s;
+}
+
 .popup {
     display: flex;
     flex-direction: column;
@@ -385,6 +438,11 @@ button:hover {
 .primary-table {
     font-size: 1em;
     font-weight: 600px;
+}
+
+.primary-table td, .primary-table th {
+    word-wrap: break-word;
+    max-width: 20px;
 }
 
 .secondary-table th {

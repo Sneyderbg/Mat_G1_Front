@@ -1,35 +1,22 @@
-import { useEffect, useState } from "react";
 
 /**
  *
- * @param {*} props = {visible, fnBtnAction, btnText?, children}
+ * @param {*} props = {fnBtnAction, btnText?, closing?, children}
  * @returns
  */
 export function Popup(props) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    setVisible(props.visible);
-  }, [props.visible]);
-
-  return visible ? (
-    <div className="popup__background">
+  return (
+    <div className={`popup__background${props.closing ? " popup__background--disappearing" : ""}`}>
       <div className="popup">
         {props.children}
         <button
           onClick={() => {
-            if (!props.fnBtnAction) {
-              setVisible(false); // no btnAction func was found, default is close popup
-            } else {
-              props.fnBtnAction();
-            }
+            props.fnBtnAction();
           }}
         >
           {props.btnText ? props.btnText : "Regresar"}
         </button>
       </div>
     </div>
-  ) : (
-    ""
   );
 }

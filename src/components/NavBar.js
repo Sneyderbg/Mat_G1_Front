@@ -8,7 +8,7 @@ export function NavBar(props) {
     "Liquidación de matrícula",
     "Calendario académico",
     "Oferta de materias",
-    "Matrícula",
+    "Matrícula", // TODO: Add warning when trying to cancel the process
     "Constancia de matrícula",
     "Reglamento estudiantil",
   ];

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { GroupsPopup } from "./GroupsPopup";
 import { CoursesTable } from "./CoursesTable";
 import { GeneralInfo } from "./GeneralInfo";
+import { STATUS } from "../../utils/CommonRequests";
 
 /**
  * Página principal de la oferta de materias.
@@ -13,23 +14,32 @@ import { GeneralInfo } from "./GeneralInfo";
 export function OfertaDeMaterias(props) {
   const showTanda = true;
   const [showGroupsPopup, setShowGroupsPopup] = useState(false);
+  const [groupsPopupClosing, setGroupsPopupClosing] = useState(false);
   const [courseId, setCourseId] = useState(0);
 
   return (
     <div className="default-div">
       <div className="body">
-        <GroupsPopup
-          visible={showGroupsPopup}
-          courseId={courseId}
-          fnClose={() => setShowGroupsPopup(false)}
-        ></GroupsPopup>
+        {showGroupsPopup && (
+          <GroupsPopup
+            closing={groupsPopupClosing}
+            courseId={courseId}
+            fnClose={() => {
+              setGroupsPopupClosing(true);
+              setTimeout(() => {
+                setShowGroupsPopup(false);
+                setGroupsPopupClosing(false);
+              }, 300);
+            }}
+          ></GroupsPopup>
+        )}
         <h2>Oferta de materias</h2>
         <p>
           Aquí encontrarás las materias que puedes matricular en este periodo académico, además del
           día, hora y tanda en la cual debes matricularte a través del Portal Web Universitario,
           identificándote con usuario y contraseña.
         </p>
-        {props.userInfo.status === "ok" ? (
+        {props.userInfo.status === STATUS.OK ? (
           <GeneralInfo userInfo={props.userInfo} showTanda={showTanda}></GeneralInfo>
         ) : (
           <div className="error-box">

@@ -1,44 +1,39 @@
 import { useState, useEffect } from "react";
 
-import { getGroupsByCourseId } from "../../utils/CommonRequests";
+import { STATUS, getGroupsByCourseId } from "../../utils/CommonRequests";
 import { Popup } from "../common/Popup";
 import { Table } from "../common/Table";
 
 /**
  * Componente que muestra la información de los grupos de un curso.
  *
- * @param {*} props Propiedades = {courseId, visible, fnClose}
+ * @param {*} props Propiedades = {courseId, fnClose, closing}
  * @returns Render del componente.
  */
 export function GroupsPopup(props) {
-  const [visible, setVisible] = useState(false);
-  const [groups, setGroups] = useState({ status: undefined, list: [] });
+  const [groups, setGroups] = useState({ status: STATUS.PENDING, list: [] });
 
   // actualiza la lista de grupos si el id del curso cambia
   useEffect(() => {
-    setGroups({ status: "pending", list: [] });
+    setGroups({ status: STATUS.PENDING, list: [] });
     if (props.courseId !== 0) {
       getGroupsByCourseId(props.courseId).then((data) => setGroups(data));
     }
   }, [props.courseId]);
 
-  useEffect(() => {
-    setVisible(props.visible);
-  }, [props.visible]);
-
   return (
-    <Popup visible={visible} fnBtnAction={props.fnClose}>
+    <Popup closing={props.closing} fnBtnAction={props.fnClose}>
       <div className="popup__title">Grupos y horarios disponibles para esta materia</div>
       <div className="popup__text">
-        {groups.status === "ok" ? (
+        {groups.status === STATUS.OK ? (
           "[" + groups.list[0].materiaId + "] " + groups.list[0].nombre
-        ) : groups.status === "pending" ? (
+        ) : groups.status === STATUS.PENDING ? (
           "Cargando información..."
         ) : (
           <h3>{groups.customMessage}</h3>
         )}
       </div>
-      {groups.status === "ok" ? (
+      {groups.status === STATUS.OK ? (
         <Table
           className="secondary-table"
           head={["Grupo", "Cupos", "Aula", "Horario"]}
@@ -54,7 +49,7 @@ export function GroupsPopup(props) {
       ) : (
         "(^-^)"
       )}
-      {/* <GroupsTable groupsList={groups.status === "ok" ? groups.list : []}></GroupsTable> */}
+      {/* <GroupsTable groupsList={groups.status === STATUS.OK ? groups.list : []}></GroupsTable> */}
     </Popup>
   );
 }

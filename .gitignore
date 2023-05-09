@@ -26,6 +26,7 @@ yarn-error.log*
 create-db.js
 db.js
 db.json
+db.json.old
 back.js
 routes.json
 .vscode
