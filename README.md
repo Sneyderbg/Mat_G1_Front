@@ -2,7 +2,7 @@
 TODO: añadir descripción
 # Ejecución y compilación
 
-## Requisitos previos
+## Requisitos previos 
 
 - npm y Node.js [https://nodejs.org/en]
 - react-scrips [https://www.npmjs.com/package/react-scripts]
