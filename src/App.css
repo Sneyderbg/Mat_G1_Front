@@ -39,6 +39,13 @@ p {
     font-weight: 400;
 }
 
+input {
+    border-width: 2px;
+    border-color: #525252;
+    border-style: solid;
+    border-radius: 4px;
+}
+
 input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
