@@ -3,7 +3,8 @@ import { NavBar } from "./NavBar";
 import { BlankPage } from "./blank/blankPage";
 import { OfertaDeMaterias } from "./oferta/OfertaDeMaterias";
 import { StartMatricula } from "./matricula/StartMatricula";
-import { getUserInfo } from "../utils/CommonRequests";
+import { STATUS, getUserInfo } from "../utils/CommonRequests";
+import { Login } from "./Login";
 
 /**
  * Componente que renderiza la página principal (o página general) de la app web.
@@ -14,20 +15,41 @@ import { getUserInfo } from "../utils/CommonRequests";
 export function MainPage(props) {
   const [currentPageNumber, setCurrentPageNumber] = useState(3);
   const [userInfo, setUserInfo] = useState({});
+  const [login, setLogin] = useState({ status: undefined });
 
   useEffect(() => {
-    getUserInfo(props.cfg.USER_ID).then((res) => setUserInfo(res));
-  }, [props.cfg.USER_ID]);
-  
+    if (userInfo.status === STATUS.OK) {
+      setLogin({ status: STATUS.OK, userId: userInfo.id });
+    } else {
+      setLogin({
+        status: userInfo.status,
+        customMessage: userInfo.customMessage,
+        info: userInfo.info,
+      });
+    }
+  }, [userInfo]);
+
   return (
     <div>
       <header>
         <h1>Proceso de matrícula</h1>
       </header>
-      <main>
-        <NavBar activeBtnIdx={currentPageNumber} changePageNumber={setCurrentPageNumber}></NavBar>
-        {getCurrentPage(currentPageNumber, userInfo)}
-      </main>
+      {login.status === STATUS.OK ? (
+        <main>
+          <NavBar activeBtnIdx={currentPageNumber} changePageNumber={setCurrentPageNumber}></NavBar>
+          {getCurrentPage(currentPageNumber, userInfo)}
+        </main>
+      ) : (
+        <Login
+          loginStatus={login}
+          fnOnLogin={(e) => {
+            e.preventDefault();
+            const data = new FormData(e.target);
+            setLogin({ status: STATUS.PENDING });
+            getUserInfo(data.get("userId")).then((info) => setUserInfo(info));
+          }}
+        ></Login>
+      )}
     </div>
   );
 }
