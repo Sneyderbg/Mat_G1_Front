@@ -9,12 +9,12 @@ import { Table } from "../common/Table";
  * @returns Render del componente.
  */
 export function CoursesTable(props) {
-  const [oferta, setOferta] = useState({ status: STATUS.PENDING });
+    const [oferta, setOferta] = useState({ status: undefined });
 
   // Actualiza la lista de cursos cada vez que cambie la información del usuario
   useEffect(() => {
-    setOferta({ status: STATUS.PENDING });
     if (props.userInfo.status === STATUS.OK) {
+      setOferta({ status: STATUS.PENDING });
       getOferta(props.userInfo.ofertaId).then((res) => setOferta(res));
     }
   }, [props.userInfo]);
@@ -22,7 +22,7 @@ export function CoursesTable(props) {
   return (
     <div className="fill-horizontal">
       {oferta.status !== STATUS.OK ? (
-        oferta.status === "pending" ? (
+        oferta.status === STATUS.PENDING ? (
           <div className="flex-box">
             <h3>Cargando cursos...</h3>
           </div>
