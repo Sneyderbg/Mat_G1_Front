@@ -39,6 +39,11 @@ p {
     font-weight: 400;
 }
 
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 button {
     height: fit-content;
     width: max-content;
