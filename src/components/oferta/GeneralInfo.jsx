@@ -1,4 +1,5 @@
-import { STATUS } from "../../utils/CommonRequests";
+import { STATUS } from "utils/CommonRequests";
+import React from "react";
 
 /**
  * Componente que describe la información general de la oferta de matriculas.
@@ -6,11 +7,13 @@ import { STATUS } from "../../utils/CommonRequests";
  * @param {*} props Propiedades = {userInfo, showTanda}.
  * @returns Render del componente.
  */
-export function GeneralInfo(props) {
+export function GeneralInfo({ userInfo, showTanda }) {
   const date = new Date();
-  const currentDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-  const tandaDate = props.userInfo.hasOwnProperty("tanda")
-    ? new Date(props.userInfo.tanda.horario)
+  const currentDate = `${date.getDate()}-${
+    date.getMonth() + 1
+  }-${date.getFullYear()}`;
+  const tandaDate = userInfo.hasOwnProperty("tanda")
+    ? new Date(userInfo.tanda.horario)
     : null;
 
   return (
@@ -20,33 +23,35 @@ export function GeneralInfo(props) {
       <br />
       <label>Nombre: </label>
       <label className="default-box__dato">
-        {props.userInfo.hasOwnProperty("nombres")
-          ? props.userInfo.nombres + " " + props.userInfo.apellidos
+        {userInfo.hasOwnProperty("nombres")
+          ? `${userInfo.nombres} ${userInfo.apellidos}`
           : "----"}
       </label>
       <br />
       <label>Programa: </label>
       <label className="default-box__dato">
-        {props.userInfo.hasOwnProperty("programa") ? props.userInfo.programa.nombre : "----"}
+        {userInfo.hasOwnProperty("programa")
+          ? userInfo.programa.nombre
+          : "----"}
       </label>
       <br />
       <label>Semestre: </label>
       <label className="default-box__dato">
-        {props.userInfo.hasOwnProperty("nroSemestre") ? props.userInfo.nroSemestre : "----"}
+        {userInfo.hasOwnProperty("nroSemestre") ? userInfo.nroSemestre : "----"}
       </label>
-      {props.userInfo.status !== STATUS.OK ? (
+      {userInfo.status !== STATUS.OK ? (
         <div className="flex-box error-box">
-          <h3>{props.userInfo.customMessage}</h3>
+          <h3>{userInfo.customMessage}</h3>
         </div>
       ) : (
-        props.showTanda && (
+        showTanda && (
           <div className="tanda-matricula">
             <label id="lbl-matricula">Matrícula </label>
             <div className="tanda-params">
               <label>Tanda: </label>
               <label className="tanda__dato important-label">
-                {props.userInfo.tanda.hasOwnProperty("numero")
-                  ? props.userInfo.tanda.numero
+                {userInfo.tanda.hasOwnProperty("numero")
+                  ? userInfo.tanda.numero
                   : "----"}
               </label>
             </div>
@@ -54,7 +59,9 @@ export function GeneralInfo(props) {
               <label>Fecha: </label>
               <label className="tanda__dato important-label">
                 {tandaDate !== null
-                  ? `${tandaDate.getDate()}-${tandaDate.getMonth() + 1}-${tandaDate.getFullYear()}`
+                  ? `${tandaDate.getDate()}-${
+                      tandaDate.getMonth() + 1
+                    }-${tandaDate.getFullYear()}`
                   : "----"}
               </label>
             </div>
@@ -62,9 +69,9 @@ export function GeneralInfo(props) {
               <label>Hora: </label>
               <label className="tanda__dato important-label">
                 {tandaDate !== null
-                  ? `${("0" + tandaDate.getHours()).slice(-2)}:${(
-                      "0" + tandaDate.getMinutes()
-                    ).slice(-2)}`
+                  ? `${`0${tandaDate.getHours()}`.slice(
+                      -2
+                    )}:${`0${tandaDate.getMinutes()}`.slice(-2)}`
                   : "----"}
               </label>
             </div>

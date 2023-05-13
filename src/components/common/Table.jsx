@@ -1,24 +1,28 @@
+import { v4 as uuidv4 } from "uuid";
+import React from "react";
+
 /**
  *
  * @param {*} props = {className?, head[], body[][]}
  */
 export function Table(props) {
   checkProps(props);
+  const { className, head, body } = props;
 
   return (
-    <table className={props.className ? props.className : ""}>
+    <table className={className || ""}>
       <thead>
         <tr>
-          {props.head.map((head, i) => (
-            <th key={i}>{head}</th>
+          {head.map((head) => (
+            <th key={uuidv4()}>{head}</th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {props.body.map((row, i) => (
-          <tr key={i}>
-            {row.map((col, j) => (
-              <td key={j}>{col}</td>
+        {body.map((row) => (
+          <tr key={uuidv4()}>
+            {row.map((col) => (
+              <td key={uuidv4()}>{col}</td>
             ))}
           </tr>
         ))}
