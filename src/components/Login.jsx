@@ -1,12 +1,14 @@
-import { STATUS } from "../utils/CommonRequests";
+import { STATUS } from "utils/CommonRequests";
 
 /**
  *
  * @param {*} props = {fnOnLogin, loginStatus}
  */
-export function Login(props) {
+export function Login({ loginStatus, fnOnLogin }) {
   return (
-    <div className="popup__background">{getFormGromStatus(props.loginStatus, props.fnOnLogin)}</div>
+    <div className="popup__background">
+      {getFormGromStatus(loginStatus, fnOnLogin)}
+    </div>
   );
 }
 
@@ -16,8 +18,10 @@ function getFormGromStatus(loginStatus, fnOnLogin) {
       return (
         <form className="popup" onSubmit={fnOnLogin}>
           <div className="popup__title">Inicio de sesión</div>
-          <div className="popup__text">Ingrese su número de identificación:</div>
-          <input name="userId" type="number" placeholder="Id" autoFocus required></input>
+          <div className="popup__text">
+            Ingrese su número de identificación:
+          </div>
+          <input name="userId" type="number" placeholder="Id" required />
           <button type="submit">Aceptar</button>
         </form>
       );
@@ -34,8 +38,12 @@ function getFormGromStatus(loginStatus, fnOnLogin) {
       return (
         <div className="popup">
           <div className="popup__title">Inicio de sesión</div>
-          <div className="popup__text important-label">{loginStatus.customMessage}</div>
-          <button onClick={() => window.location.reload()}>Recargar página</button>
+          <div className="popup__text important-label">
+            {loginStatus.customMessage}
+          </div>
+          <button type="button" onClick={() => window.location.reload()}>
+            Recargar página
+          </button>
         </div>
       );
 
@@ -46,7 +54,9 @@ function getFormGromStatus(loginStatus, fnOnLogin) {
           <div className="popup__text important-label">
             {loginStatus.customMessage}, {loginStatus.info}
           </div>
-          <button onClick={() => window.location.reload()}>Recargar página</button>
+          <button type="button" onClick={() => window.location.reload()}>
+            Recargar página
+          </button>
         </div>
       );
   }

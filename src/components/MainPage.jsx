@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
-import { NavBar } from "./NavBar";
-import { BlankPage } from "./blank/blankPage";
-import { OfertaDeMaterias } from "./oferta/OfertaDeMaterias";
-import { StartMatricula } from "./matricula/StartMatricula";
-import { STATUS, getUserInfo } from "../utils/CommonRequests";
-import { Login } from "./Login";
+import { NavBar } from "components/NavBar";
+import { BlankPage } from "components/blank/blankPage";
+import { OfertaDeMaterias } from "components/oferta/OfertaDeMaterias";
+import { StartMatricula } from "components/matricula/StartMatricula";
+import { STATUS, getUserInfo } from "utils/CommonRequests";
+import { Login } from "components/Login";
 
 /**
  * Componente que renderiza la página principal (o página general) de la app web.
  *
- * @param {*} props Propiedades = {}
  * @returns Render del componente.
  */
-export function MainPage(props) {
+export function MainPage() {
   const [currentPageNumber, setCurrentPageNumber] = useState(3);
   const [userInfo, setUserInfo] = useState({});
   const [login, setLogin] = useState({ status: undefined });
@@ -36,7 +35,10 @@ export function MainPage(props) {
       </header>
       {login.status === STATUS.OK ? (
         <main>
-          <NavBar activeBtnIdx={currentPageNumber} changePageNumber={setCurrentPageNumber}></NavBar>
+          <NavBar
+            activeBtnIdx={currentPageNumber}
+            changePageNumber={setCurrentPageNumber}
+          />
           {getCurrentPage(currentPageNumber, userInfo)}
         </main>
       ) : (
@@ -48,7 +50,7 @@ export function MainPage(props) {
             setLogin({ status: STATUS.PENDING });
             getUserInfo(data.get("userId")).then((info) => setUserInfo(info));
           }}
-        ></Login>
+        />
       )}
     </div>
   );
@@ -57,12 +59,12 @@ export function MainPage(props) {
 function getCurrentPage(idx, userInfo) {
   switch (idx) {
     case 2:
-      return <OfertaDeMaterias userInfo={userInfo}></OfertaDeMaterias>;
+      return <OfertaDeMaterias userInfo={userInfo} />;
 
     case 3:
-      return <StartMatricula userInfo={userInfo}></StartMatricula>;
+      return <StartMatricula userInfo={userInfo} />;
 
     default:
-      return <BlankPage></BlankPage>;
+      return <BlankPage />;
   }
 }
