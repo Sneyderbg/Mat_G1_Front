@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { STATUS, getGroupsByCourseId } from "utils/CommonRequests";
 import { Popup } from "components/common/Popup";
 import { Table } from "components/common/Table";
+import { formatHorario } from "utils/Helpers";
 
 /**
  * Componente que muestra la información de los grupos de un curso.
@@ -53,9 +54,4 @@ export function GroupsPopup({ courseId, closing, fnClose }) {
       {/* <GroupsTable groupsList={groups.status === STATUS.OK ? groups.list : []}></GroupsTable> */}
     </Popup>
   );
-}
-
-// TODO: implement
-function formatHorario(horario) {
-  return horario;
 }
