@@ -43,15 +43,14 @@ export function GroupsPopup({ courseId, closing, fnClose }) {
           head={["Grupo", "Cupos", "Aula", "Horario"]}
           body={groups.list.map((group) => [
             `${group.grupoId}-${group.numeroGrupo}`,
-            -1, // FIXME: no quotas in response
+            20, // FIXME: no quotas in response
             group.aula,
             formatHorario(group.horario),
           ])}
         />
       ) : (
-        "(^-^)"
+        ""
       )}
-      {/* <GroupsTable groupsList={groups.status === STATUS.OK ? groups.list : []}></GroupsTable> */}
     </Popup>
   );
 }
