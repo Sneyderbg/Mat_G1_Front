@@ -21,6 +21,10 @@ export function MatriculaForm({ userInfo }) {
     useState(false);
   const [maxCreditsPopupClosing, setMaxCreditsPopupClosing] = useState(false);
 
+  const [showIncompatibleHours, setShowIncompatibleHours] = useState(false);
+  const [incompatibleHoursPopupClosing, setIncompatibleHoursPopupClosing] =
+    useState(false);
+
   const [showTimeOutPopup, setShowTimeOutPopup] = useState(false);
 
   const [courseInfo, setCourseInfo] = useState({
@@ -77,7 +81,11 @@ export function MatriculaForm({ userInfo }) {
     [oferta.topeMaximoCreditos, infoMatricula]
   );
 
-  return (
+  return oferta.status === STATUS.PENDING ? (
+    <div className="default-box flex-box">
+      <h2>Cargando materias...</h2>
+    </div>
+  ) : (
     <>
       <div className="default-box">
         {matInfo}
@@ -94,19 +102,24 @@ export function MatriculaForm({ userInfo }) {
             }}
             fnOnSubmit={(courseInfo, groupInfo) => {
               setGroupsPopupClosing(true);
-              if (
-                groupInfo &&
-                getCurrentCredits(infoMatricula) + courseInfo.creditos >
+              if (groupInfo) {
+                if (
+                  getCurrentCredits(infoMatricula) + courseInfo.creditos >
                   oferta.topeMaximoCreditos
-              ) {
-                setShowMaxCreditsReachedPopup(true);
-              } else {
-                saveGroupSelection(
-                  courseInfo,
-                  groupInfo,
-                  infoMatricula,
-                  setInfoMatricula
-                );
+                ) {
+                  setShowMaxCreditsReachedPopup(true);
+                } else if (
+                  isIncompatible(groupInfo, infoMatricula.selectedGroups)
+                ) {
+                  setShowIncompatibleHours(true);
+                } else {
+                  saveGroupSelection(
+                    courseInfo,
+                    groupInfo,
+                    infoMatricula,
+                    setInfoMatricula
+                  );
+                }
               }
               setTimeout(() => {
                 setShowGroupsPopup(false);
@@ -133,6 +146,24 @@ export function MatriculaForm({ userInfo }) {
             <div className="popup__text">
               No puedes matricular esta materia ya que no tienes suficientes
               créditos disponibles. Selecciona otra, o elimina alguna.
+            </div>
+          </Popup>
+        )}
+        {showIncompatibleHours && (
+          <Popup
+            closing={incompatibleHoursPopupClosing}
+            fnBtnAction={() => {
+              setIncompatibleHoursPopupClosing(true);
+              setTimeout(() => {
+                setShowIncompatibleHours(false);
+                setIncompatibleHoursPopupClosing(false);
+              }, 300);
+            }}
+          >
+            <div className="popup__title">Horas incompatibles</div>
+            <div className="popup__text">
+              No puedes matricular este grupo por cruce de horas, selecciona
+              otro.
             </div>
           </Popup>
         )}
@@ -180,10 +211,10 @@ export function MatriculaForm({ userInfo }) {
         >
           Limpiar
         </button>
+        {/* TODO: implement */}
         <button type="button" onClick={() => console.log("Enviar")}>
           Enviar
         </button>
-        {/* TODO: implement */}
       </div>
     </>
   );
@@ -254,4 +285,36 @@ function getCurrentCredits(infoMatricula) {
   }
   const total = creditos.reduce((prev, curr) => prev + curr);
   return total;
+}
+
+function isIncompatible(groupInfo, selectedGroups) {
+  const posibleHorario = groupInfo.horario;
+  let incompatible = false;
+  selectedGroups.forEach((group) => {
+    if (group.horario) {
+      group.horario.forEach((schedule) => {
+        posibleHorario.forEach((posibleSchedule) => {
+          if (intersects(schedule, posibleSchedule)) {
+            incompatible = true;
+          }
+        });
+      });
+    }
+  });
+  return incompatible;
+}
+
+function intersects(hour0, hour1) {
+  const sameDay = hour0.diaSemana === hour1.diaSemana;
+  if (!sameDay) {
+    return false;
+  }
+  return (
+    (hour0.diaSemana === hour1.diaSemana &&
+      hour0.horaInicio < hour1.horaFin &&
+      hour0.horaInicio > hour1.horaInicio) ||
+    (hour0.horaFin < hour1.horaFin && hour0.horaFin > hour1.horaInicio) ||
+    hour0.horaInicio === hour1.horaInicio ||
+    hour0.horaFin === hour1.horaFin
+  );
 }
