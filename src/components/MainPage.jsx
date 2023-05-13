@@ -6,11 +6,6 @@ import { StartMatricula } from "components/matricula/StartMatricula";
 import { STATUS, getUserInfo } from "utils/CommonRequests";
 import { Login } from "components/Login";
 
-/**
- * Componente que renderiza la página principal (o página general) de la app web.
- *
- * @returns Render del componente.
- */
 export function MainPage() {
   const [currentPageNumber, setCurrentPageNumber] = useState(3);
   const [userInfo, setUserInfo] = useState({});
@@ -67,4 +62,5 @@ function getCurrentPage(idx, userInfo) {
     default:
       return <BlankPage />;
   }
+
 }
