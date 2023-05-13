@@ -1,11 +1,11 @@
-import cfg from "./config.json";
+import cfg from "utils/config";
 import axios from "axios";
 
 export const STATUS = {
-  OK: Symbol(),
-	WARNING: Symbol(),
-  PENDING: Symbol(),
-  ERROR: Symbol(),
+  OK: Symbol(""),
+  WARNING: Symbol(""),
+  PENDING: Symbol(""),
+  ERROR: Symbol(""),
 };
 
 /**
@@ -14,31 +14,27 @@ export const STATUS = {
  * @param {Number} userId Id de usuario.
  * @returns Promise de la info.
  */
-export async function getUserInfo(userId) {
-  const response = await axios
-    .get(cfg.API_URL + cfg.endpoints.STUDENTS + "/" + userId, {
+export function getUserInfo(userId) {
+  return axios
+    .get(`${cfg.API_URL + cfg.endpoints.STUDENTS}/${userId}`, {
       signal: cfg.BYPASS_TIMEOUTS ? undefined : AbortSignal.timeout(5000),
     })
-    .then((res) => {
-      return { ...res.data, status: STATUS.OK };
-    })
-    .catch((err) => handleError(err, "Error al obtener la información del usuario."));
-
-  return response;
+    .then((res) => ({ ...res.data, status: STATUS.OK }))
+    .catch((err) =>
+      handleError(err, "Error al obtener la información del usuario.")
+    );
 }
 
-export async function getOferta(idOferta) {
-  const response = await axios
+export function getOferta(idOferta) {
+  return axios
     .get(cfg.API_URL + cfg.endpoints.OFFER, {
       signal: cfg.BYPASS_TIMEOUTS ? undefined : AbortSignal.timeout(5000),
       params: { id: idOferta },
     })
-    .then((res) => {
-      return { ...res.data, status: STATUS.OK };
-    })
-    .catch((err) => handleError(err, "Error al obtener la información de la oferta."));
-
-  return response;
+    .then((res) => ({ ...res.data, status: STATUS.OK }))
+    .catch((err) =>
+      handleError(err, "Error al obtener la información de la oferta.")
+    );
 }
 /**
  * Consulta la lista de grupos de un curso.
@@ -46,24 +42,22 @@ export async function getOferta(idOferta) {
  * @param {*} courseId Id del curso a consultar.
  * @returns Promise con lista de la información de los grupos.
  */
-export async function getGroupsByCourseId(courseId) {
-  const response = axios
+export function getGroupsByCourseId(courseId) {
+  return axios
     .get(cfg.API_URL + cfg.endpoints.COURSES, {
       signal: cfg.BYPASS_TIMEOUTS ? undefined : AbortSignal.timeout(5000),
       params: {
         codigo: courseId,
       },
     })
-    .then((res) => {
-      return { list: res.data, status: STATUS.OK };
-    })
-    .catch((err) => handleError(err, "Error al cargar los grupos para esta materia."));
-
-  return response;
+    .then((res) => ({ list: res.data, status: STATUS.OK }))
+    .catch((err) =>
+      handleError(err, "Error al cargar los grupos para esta materia.")
+    );
 }
 
 function handleError(err, customMsg) {
-  var info = "";
+  let info = "";
   if (err.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
@@ -78,13 +72,13 @@ function handleError(err, customMsg) {
     info = "RequestError: Error en la configuración de la solicitud.";
   }
 
-	console.error(info);
+  console.error(info);
   console.error(err);
 
   return {
     status: STATUS.ERROR,
     customMessage: customMsg,
-    info: info,
+    info,
     ...err,
   };
 }

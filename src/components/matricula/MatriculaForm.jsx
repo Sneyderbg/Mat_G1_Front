@@ -1,11 +1,11 @@
-import { useState, useEffect, Fragment } from "react";
-import { MatriculaInfo } from "./MatriculaInfo";
-import { Popup } from "../common/Popup";
-import { Table } from "../common/Table";
-import { STATUS, getGroupsByCourseId, getOferta } from "../../utils/CommonRequests";
-import { GroupSelection } from "./GroupSelection";
+import React, { useState, useEffect, Fragment } from "react";
+import { MatriculaInfo } from "components/matricula/MatriculaInfo";
+import { Popup } from "components/common/Popup";
+import { Table } from "components/common/Table";
+import { STATUS, getGroupsByCourseId, getOferta } from "utils/CommonRequests";
+import { GroupSelection } from "components/matricula/GroupSelection";
 
-export function MatriculaForm(props) {
+export function MatriculaForm({ userInfo }) {
   const [infoMatricula, setInfoMatricula] = useState({
     idEstudiante: undefined,
     idOferta: undefined,
@@ -16,7 +16,8 @@ export function MatriculaForm(props) {
   const [showGroupsPopup, setShowGroupsPopup] = useState(false);
   const [groupsPopupClosing, setGroupsPopupClosing] = useState(false);
 
-  const [showMaxCreditsReachedPopup, setShowMaxCreditsReachedPopup] = useState(false);
+  const [showMaxCreditsReachedPopup, setShowMaxCreditsReachedPopup] =
+    useState(false);
   const [maxCreditsPopupClosing, setMaxCreditsPopupClosing] = useState(false);
 
   const [showTimeOutPopup, setShowTimeOutPopup] = useState(false);
@@ -30,42 +31,39 @@ export function MatriculaForm(props) {
 
   useEffect(() => {
     setOferta({ status: STATUS.PENDING });
-    if (!props.userInfo) {
+    if (!userInfo) {
       return;
     }
-    getOferta(props.userInfo.ofertaId).then((res) => {
+    getOferta(userInfo.ofertaId).then((res) => {
       setOferta(res);
-      setInfoMatricula((prevInfo) => {
-        return {
-          ...prevInfo,
-          idEstudiante: props.userInfo.id,
-          idOferta: res.ofertaId,
-          programa: props.userInfo.programa,
-          tanda: props.userInfo.tanda,
-          selectedGroups: res.materiasList.map((m, i) => {
-            return { materiaId: m.id, groupSelected: false };
-          }),
-        };
-      });
+      setInfoMatricula((prevInfo) => ({
+        ...prevInfo,
+        idEstudiante: userInfo.id,
+        idOferta: res.ofertaId,
+        programa: userInfo.programa,
+        tanda: userInfo.tanda,
+        selectedGroups: res.materiasList.map((m) => ({
+          materiaId: m.id,
+          groupSelected: false,
+        })),
+      }));
     });
-  }, [props.userInfo]);
+  }, [userInfo]);
 
   useEffect(() => {
     if (!courseInfo.id) {
       return;
     }
     getGroupsByCourseId(courseInfo.id).then((res) => {
-      setCourseInfo((prev) => {
-        return {
-          ...prev,
-          groups: res,
-        };
-      });
+      setCourseInfo((prev) => ({
+        ...prev,
+        groups: res,
+      }));
     });
   }, [courseInfo.id]);
 
   return (
-    <Fragment>
+    <>
       <div className="default-box">
         <MatriculaInfo
           maxCredits={oferta.topeMaximoCreditos}
@@ -73,7 +71,7 @@ export function MatriculaForm(props) {
           fnOnTimeFinished={() => {
             setShowTimeOutPopup(true);
           }}
-        ></MatriculaInfo>
+        />
         {showGroupsPopup && (
           <GroupSelection
             closing={groupsPopupClosing}
@@ -89,18 +87,24 @@ export function MatriculaForm(props) {
               setGroupsPopupClosing(true);
               if (
                 groupInfo &&
-                getCurrentCredits(infoMatricula) + courseInfo.creditos > oferta.topeMaximoCreditos
+                getCurrentCredits(infoMatricula) + courseInfo.creditos >
+                  oferta.topeMaximoCreditos
               ) {
                 setShowMaxCreditsReachedPopup(true);
               } else {
-                saveGroupSelection(courseInfo, groupInfo, infoMatricula, setInfoMatricula);
+                saveGroupSelection(
+                  courseInfo,
+                  groupInfo,
+                  infoMatricula,
+                  setInfoMatricula
+                );
               }
               setTimeout(() => {
                 setShowGroupsPopup(false);
                 setGroupsPopupClosing(false);
               }, 300);
             }}
-          ></GroupSelection>
+          />
         )}
         {showMaxCreditsReachedPopup && (
           <Popup
@@ -112,17 +116,22 @@ export function MatriculaForm(props) {
                 setMaxCreditsPopupClosing(false);
               }, 300);
             }}
-            btnText={"Aceptar"}
+            btnText="Aceptar"
           >
-            <div className="popup__title">Tope máximo de creditos alcanzado</div>
+            <div className="popup__title">
+              Tope máximo de creditos alcanzado
+            </div>
             <div className="popup__text">
-              No puedes matricular esta materia ya que no tienes suficientes créditos disponibles.
-              Selecciona otra, o elimina alguna.
+              No puedes matricular esta materia ya que no tienes suficientes
+              créditos disponibles. Selecciona otra, o elimina alguna.
             </div>
           </Popup>
         )}
         {showTimeOutPopup && (
-          <Popup fnBtnAction={() => window.location.reload()} btnText={"Recargar"}>
+          <Popup
+            fnBtnAction={() => window.location.reload()}
+            btnText="Recargar"
+          >
             <div className="popup__title">Tiempo agotado</div>
             <div className="popup__text">
               Debes recargar la página y volver a iniciar tu matrícula.
@@ -133,59 +142,70 @@ export function MatriculaForm(props) {
           <Table
             className="fill-horizontal"
             head={["Materia", "Créditos", "Grupo Elegido", "Grupos"]}
-            body={oferta.materiasList.map((course, i) => {
-              return [
-                course.nombre,
-                course.creditos,
-                formatSelectedGroup(infoMatricula.selectedGroups[i]),
-                <button
-                  onClick={() => {
-                    setCourseInfo((prev) => {
-                      return {
-                        ...prev,
-                        id: course.id,
-                        nombre: course.nombre,
-                        creditos: course.creditos,
-                      };
-                    });
-                    setShowGroupsPopup(true);
-                  }}
-                >
-                  Ver Grupos
-                </button>,
-              ];
-            })}
-          ></Table>
+            body={oferta.materiasList.map((course, i) => [
+              course.nombre,
+              course.creditos,
+              formatSelectedGroup(infoMatricula.selectedGroups[i]),
+              <button
+                type="button"
+                onClick={() => {
+                  setCourseInfo((prev) => ({
+                    ...prev,
+                    id: course.id,
+                    nombre: course.nombre,
+                    creditos: course.creditos,
+                  }));
+                  setShowGroupsPopup(true);
+                }}
+              >
+                Ver Grupos
+              </button>,
+            ])}
+          />
         )}
       </div>
       <div className="default-box btn-box lower-rounded">
-        <button onClick={() => clearSelectedGroups(infoMatricula, setInfoMatricula)}>
+        <button
+          type="button"
+          onClick={() => clearSelectedGroups(infoMatricula, setInfoMatricula)}
+        >
           Limpiar
         </button>
-        <button onClick={() => console.log("Enviar")}>Enviar</button> {/*TODO: implement */}
+        <button type="button" onClick={() => console.log("Enviar")}>
+          Enviar
+        </button>
+        {/* TODO: implement */}
       </div>
-    </Fragment>
+    </>
   );
 }
 
 function formatSelectedGroup(group) {
-  return group && group.groupSelected ? `${group.numeroGrupo} - ${group.horario}` : "Ninguno";
+  return group && group.groupSelected
+    ? `${group.numeroGrupo} - ${group.horario}`
+    : "Ninguno";
 }
 
 function clearSelectedGroups(infoMatricula, setInfoMatricula) {
   setInfoMatricula((prevInfo) => {
-    const newSelectedGroups = infoMatricula.selectedGroups.map((group) => {
-      return { materiaId: group.materiaId, selectedGroup: false };
-    });
+    const newSelectedGroups = infoMatricula.selectedGroups.map((group) => ({
+      materiaId: group.materiaId,
+      selectedGroup: false,
+    }));
     return { ...prevInfo, selectedGroups: newSelectedGroups };
   });
 }
 
-function saveGroupSelection(courseInfo, groupInfo, infoMatricula, setInfoMatricula) {
+function saveGroupSelection(
+  courseInfo,
+  groupInfo,
+  infoMatricula,
+  setInfoMatricula
+) {
   if (groupInfo === undefined) {
     return;
   }
-  var selection = {
+  let selection = {
     // groupInfo == null (eliminar grupo)
     materiaId: courseInfo.id,
     groupSelected: false,
@@ -202,17 +222,18 @@ function saveGroupSelection(courseInfo, groupInfo, infoMatricula, setInfoMatricu
     };
   }
 
-  var newSelectedGroups = [...infoMatricula.selectedGroups];
-  newSelectedGroups = newSelectedGroups.map((selectedGroup, i) => {
+  let newSelectedGroups = [...infoMatricula.selectedGroups];
+  newSelectedGroups = newSelectedGroups.map((selectedGroup) => {
     if (selectedGroup.materiaId === courseInfo.id) {
       return selection;
     }
     return selectedGroup;
   });
 
-  setInfoMatricula((prevInfo) => {
-    return { ...prevInfo, selectedGroups: newSelectedGroups };
-  });
+  setInfoMatricula((prevInfo) => ({
+    ...prevInfo,
+    selectedGroups: newSelectedGroups,
+  }));
 }
 
 function getCurrentCredits(infoMatricula) {
@@ -222,6 +243,6 @@ function getCurrentCredits(infoMatricula) {
   if (creditos.length === 0) {
     return 0;
   }
-  const total = creditos.reduce((prev, curr, i) => prev + curr);
+  const total = creditos.reduce((prev, curr) => prev + curr);
   return total;
 }
