@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useMemo } from "react";
 import { MatriculaInfo } from "components/matricula/MatriculaInfo";
 import { Popup } from "components/common/Popup";
 import { Table } from "components/common/Table";
@@ -63,16 +63,23 @@ export function MatriculaForm({ userInfo }) {
     });
   }, [courseInfo.id]);
 
+  const matInfo = useMemo(
+    () => (
+      <MatriculaInfo
+        maxCredits={oferta.topeMaximoCreditos}
+        fnGetCurrentCredits={() => getCurrentCredits(infoMatricula)}
+        fnOnTimeFinished={() => {
+          setShowTimeOutPopup(true);
+        }}
+      />
+    ),
+    [oferta.topeMaximoCreditos, infoMatricula]
+  );
+
   return (
     <>
       <div className="default-box">
-        <MatriculaInfo
-          maxCredits={oferta.topeMaximoCreditos}
-          fnGetCurrentCredits={() => getCurrentCredits(infoMatricula)}
-          fnOnTimeFinished={() => {
-            setShowTimeOutPopup(true);
-          }}
-        />
+        {matInfo}
         {showGroupsPopup && (
           <GroupSelection
             closing={groupsPopupClosing}
