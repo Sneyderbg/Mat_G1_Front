@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { STATUS } from "utils/CommonRequests";
 import { formatHorario } from "utils/Helpers";
-import { v4 as uuidv4 } from "uuid";
 
 /**
  *
@@ -44,7 +43,7 @@ export function GroupSelection({
           >
             <option value="Ninguno">---</option>
             {courseInfo.groups.list.map((group, i) => (
-              <option key={uuidv4()} value={i}>
+              <option key={group.id} value={i}>
                 {`[${group.numeroGrupo}] - ${group.aula} - ${formatHorario(
                   group.horario
                 )}`}
