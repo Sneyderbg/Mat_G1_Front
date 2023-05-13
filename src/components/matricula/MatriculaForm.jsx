@@ -52,6 +52,7 @@ export function MatriculaForm({ userInfo }) {
   }, [userInfo]);
 
   useEffect(() => {
+    setCourseInfo((prev) => ({ ...prev, groups: { status: STATUS.PENDING } }));
     if (!courseInfo.id) {
       return;
     }
