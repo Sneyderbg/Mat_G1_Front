@@ -14,9 +14,8 @@ export function StartMatricula({ userInfo }) {
         <h2>Matrícula</h2>
         <p>
           Aquí puedes iniciar tu proceso de matrícula en la fecha y hora que te
-          corresponden según tu tanda. Recuerda que puedes consultar tu tanda en
-          la sección &ldquo;Oferta de materias&rdquo; del Portal Web
-          Universitario.
+          corresponden según tu tanda. Recuerda que solo puedes iniciar tu
+          proceso de matrícula después del día y hora que te corresponden.
         </p>
         <GeneralInfo userInfo={userInfo} showTanda />
         {validatedState.status ? (
@@ -64,8 +63,9 @@ function getComponentFromStatus(status, userInfo) {
         <div className="default-box lower-rounded">
           <div className="flex-box error-box">
             <h3>
-              No puedes iniciar matrícula en este momento. Recuerda revisar la
-              fecha y hora de tu tanda.
+              No puedes iniciar matrícula en este momento. Recuerda que solo
+              puedes iniciar tu tanda después del día y hora que te
+              corresponden.
             </h3>
           </div>
         </div>
