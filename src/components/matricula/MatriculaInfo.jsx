@@ -1,5 +1,5 @@
 import { Timer } from "components/common/Timer";
-import React from "react";
+import React, { useMemo } from "react";
 
 /**
  *
@@ -11,6 +11,17 @@ export function MatriculaInfo({
   maxCredits,
   fnOnTimeFinished,
 }) {
+  const timer = useMemo(
+    () => (
+      <Timer
+        initialTime={new Date(15 * 60 * 1000)}
+        fnOnTimeFinished={() => {
+          fnOnTimeFinished();
+        }}
+      />
+    ),
+    [maxCredits]
+  );
   return (
     <div className="flex-box">
       <div className="flex-box--horizontal">
@@ -24,12 +35,7 @@ export function MatriculaInfo({
         </div>
         <div className="dato">
           <label>Tiempo restante: </label>
-          <Timer
-            initialTime={new Date(15 * 60 * 1000)}
-            fnOnTimeFinished={() => {
-              fnOnTimeFinished();
-            }}
-          />
+          {timer}
         </div>
       </div>
     </div>
