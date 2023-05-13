@@ -62,5 +62,4 @@ function getCurrentPage(idx, userInfo) {
     default:
       return <BlankPage />;
   }
-
 }
