@@ -4,6 +4,7 @@ import { Popup } from "components/common/Popup";
 import { Table } from "components/common/Table";
 import { STATUS, getGroupsByCourseId, getOferta } from "utils/CommonRequests";
 import { GroupSelection } from "components/matricula/GroupSelection";
+import { formatHorario } from "utils/Helpers";
 
 export function MatriculaForm({ userInfo }) {
   const [infoMatricula, setInfoMatricula] = useState({
@@ -182,7 +183,7 @@ export function MatriculaForm({ userInfo }) {
 
 function formatSelectedGroup(group) {
   return group && group.groupSelected
-    ? `${group.numeroGrupo} - ${group.horario}`
+    ? `${group.numeroGrupo} - ${formatHorario(group.horario)}`
     : "Ninguno";
 }
 
