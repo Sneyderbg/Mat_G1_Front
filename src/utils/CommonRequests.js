@@ -1,4 +1,3 @@
-import cfg from "utils/config";
 import axios from "axios";
 
 export const STATUS = {
@@ -16,8 +15,11 @@ export const STATUS = {
  */
 export function getUserInfo(userId) {
   return axios
-    .get(`${cfg.API_URL + cfg.endpoints.STUDENTS}/${userId}`, {
-      signal: cfg.BYPASS_TIMEOUTS ? undefined : AbortSignal.timeout(5000),
+    .get(`${process.env.REACT_APP_STUDENTS_ENDPOINT}/${userId}`, {
+      signal:
+        process.env.REACT_APP_BYPASS_TIMEOUTS === "1"
+          ? undefined
+          : AbortSignal.timeout(5000),
     })
     .then((res) => ({ ...res.data, status: STATUS.OK }))
     .catch((err) =>
@@ -27,8 +29,11 @@ export function getUserInfo(userId) {
 
 export function getOferta(idOferta) {
   return axios
-    .get(cfg.API_URL + cfg.endpoints.OFFER, {
-      signal: cfg.BYPASS_TIMEOUTS ? undefined : AbortSignal.timeout(5000),
+    .get(process.env.REACT_APP_OFFER_ENDPOINT, {
+      signal:
+        process.env.REACT_APP_BYPASS_TIMEOUTS === "1"
+          ? undefined
+          : AbortSignal.timeout(5000),
       params: { id: idOferta },
     })
     .then((res) => ({ ...res.data, status: STATUS.OK }))
@@ -44,8 +49,11 @@ export function getOferta(idOferta) {
  */
 export function getGroupsByCourseId(courseId) {
   return axios
-    .get(cfg.API_URL + cfg.endpoints.COURSES, {
-      signal: cfg.BYPASS_TIMEOUTS ? undefined : AbortSignal.timeout(5000),
+    .get(process.env.REACT_APP_COURSES_ENDPOINT, {
+      signal:
+        process.env.REACT_APP_BYPASS_TIMEOUTS === "1"
+          ? undefined
+          : AbortSignal.timeout(5000),
       params: {
         codigo: courseId,
       },

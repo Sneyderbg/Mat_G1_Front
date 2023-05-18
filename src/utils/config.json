@@ -1,9 +1,0 @@
-{
-  "API_URL": "http://192.168.137.1:4000",
-  "endpoints": {
-    "STUDENTS": "/estudiante",
-    "OFFER": "/oferta",
-    "COURSES": "/materia"
-  },
-  "BYPASS_TIMEOUTS": true
-}
