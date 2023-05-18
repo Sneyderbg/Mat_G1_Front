@@ -43,7 +43,7 @@ export function GroupSelection({
           >
             <option value="Ninguno">---</option>
             {courseInfo.groups.list.map((group, i) => (
-              <option key={group.id} value={i}>
+              <option key={group.grupoId} value={i}>
                 {`[${group.numeroGrupo}] - ${group.aula} - ${formatHorario(
                   group.horario
                 )}`}
