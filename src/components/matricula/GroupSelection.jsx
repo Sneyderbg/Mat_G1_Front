@@ -22,7 +22,9 @@ export function GroupSelection({
       }`}
     >
       <div className="popup">
-        <div className="popup__title">Selecciona el grupo de esta materia</div>
+        <div className="popup__title">
+          Selecciona el grupo para esta materia
+        </div>
         <div className="popup__text">
           {courseInfo.groups.status === STATUS.OK
             ? `[${courseInfo.groups.list[0].materiaId}] ${courseInfo.groups.list[0].nombre}`
@@ -39,9 +41,9 @@ export function GroupSelection({
             onChange={(e) => {
               setGroupSelectedIdx(e.target.value);
             }}
-            defaultValue="Ninguno"
+            defaultValue={0}
           >
-            <option value="Ninguno">---</option>
+            <option value={0}>Ninguno</option>
             {courseInfo.groups.list.map((group, i) => (
               <option key={group.grupoId} value={i}>
                 {`[${group.numeroGrupo}] - ${group.aula} - ${formatHorario(
