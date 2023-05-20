@@ -127,6 +127,13 @@ export function MatriculaForm({ userInfo }) {
                   setInfoMatricula
                 );
               }
+            } else {
+              saveGroupSelection(
+                courseInfo,
+                null,
+                infoMatricula,
+                setInfoMatricula
+              );
             }
             setTimeout(() => {
               setShowGroupsPopup(false);
