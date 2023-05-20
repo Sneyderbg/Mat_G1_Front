@@ -281,7 +281,6 @@ export function MatriculaForm({ userInfo }) {
           sendMatricula(infoMatricula).then((res) => {
             if (res.status === 200 || res.status === 201) {
               setSendStatus(STATUS.OK);
-              console.log(res.data);
             } else {
               setSendStatus(STATUS.ERROR);
             }
