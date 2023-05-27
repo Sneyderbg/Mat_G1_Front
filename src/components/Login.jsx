@@ -22,7 +22,19 @@ function getFormGromStatus(loginStatus, fnOnLogin) {
           <div className="popup__text">
             Ingrese su número de identificación:
           </div>
-          <input name="userId" type="number" placeholder="Id" required />
+          <input
+            name="userId"
+            type="text"
+            placeholder="Id"
+            required
+            autoComplete="off"
+            onChange={(e) => {
+              const reg = /^[0-9]+$/;
+              const preval = e.target.value;
+              if (e.target.value === "" || reg.test(e.target.value)) return;
+              e.target.value = preval.substring(0, preval.length - 1);
+            }}
+          />
           <button type="submit">Aceptar</button>
         </form>
       );
