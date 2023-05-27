@@ -72,6 +72,35 @@ button:hover {
     cursor: pointer;
 }
 
+table {
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+    vertical-align: middle;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: rgba(0, 0, 0, 0.23);
+}
+
+tbody {
+    background-color: #eaeaea;
+}
+
+td, th {
+    height: 2em;
+    padding: 0.2em 1em;
+}
+
+th {
+    font-size: 1.1em;
+}
+
+td {
+    font-size: 1em;
+}
+
 @keyframes appear {
     from {
         opacity: 0;
@@ -467,35 +496,12 @@ button:hover {
     font-weight: 400px;
 }
 
-.secondary-table th, td {
+.secondary-table th, .secondary-table td {
     padding: 0.1em 0.4em;
 }
 
-table {
-    width: fit-content;
-    height: fit-content;
-    text-align: center;
-    vertical-align: middle;
-    border-collapse: collapse;
-}
-
-thead {
-    background-color: rgba(0, 0, 0, 0.23);
-}
-
-tbody {
-    background-color: #eaeaea;
-}
-
-td, th {
-    height: 2em;
-    padding: 0.2em 1em;
-}
-
-th {
-    font-size: 1.1em;
-}
-
-td {
-    font-size: 1em;
+.transparent-table td, .transparent-table tbody {
+    background-color: transparent;
+    padding: 0px 1em;
+    color: #525252;
 }
