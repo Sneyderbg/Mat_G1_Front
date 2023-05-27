@@ -263,7 +263,7 @@ td {
     border-radius: 1.5mm;
     width: 215px;
     height: 32px;
-    color: #332F2F;
+    color: #000000;
     background-color: transparent;
     cursor: pointer;
 }
@@ -278,6 +278,17 @@ td {
     color: white;
     background-color: rgba(13, 73, 40, 0.92);
     transition: .309s;
+}
+
+.navbar-btn--disabled {
+    color: #828282;
+    font-size: 0.95em;
+}
+
+.navbar-btn--disabled:hover{
+    color: #828282;
+    background-color: transparent;
+    cursor: not-allowed;
 }
 
 .default-box {
