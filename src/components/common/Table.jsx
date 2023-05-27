@@ -11,13 +11,15 @@ export function Table(props) {
 
   return (
     <table className={className || ""}>
-      <thead>
-        <tr>
-          {head.map((head) => (
-            <th key={uuidv4()}>{head}</th>
-          ))}
-        </tr>
-      </thead>
+      {head && (
+        <thead>
+          <tr>
+            {head.map((head) => (
+              <th key={uuidv4()}>{head}</th>
+            ))}
+          </tr>
+        </thead>
+      )}
       <tbody>
         {body.map((row) => (
           <tr key={uuidv4()}>
@@ -32,15 +34,15 @@ export function Table(props) {
 }
 
 function checkProps(props) {
-  if (!Array.isArray(props.head)) {
-    throw new Error("head must be an array");
-  }
+  // if (!Array.isArray(props.head)) {
+  //   throw new Error("head must be an array");
+  // }
   if (!Array.isArray(props.body)) {
     throw new Error("body must be an array");
   }
-  if (props.head.length === 0) {
-    throw new Error("Table head must have at least one element");
-  }
+  // if (props.head.length === 0) {
+  //   throw new Error("Table head must have at least one element");
+  // }
   if (props.body.length === 0) {
     throw new Error("Table body must have at least one element");
   }

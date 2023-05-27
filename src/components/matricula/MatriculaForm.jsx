@@ -9,7 +9,7 @@ import {
   sendMatricula,
 } from "utils/CommonRequests";
 import { GroupSelection } from "components/matricula/GroupSelection";
-import { formatHorario } from "utils/Helpers";
+import { formatHorario, formatSelectedGroup, intersects } from "utils/Helpers";
 
 export function MatriculaForm({ userInfo }) {
   const [infoMatricula, setInfoMatricula] = useState({
@@ -26,6 +26,8 @@ export function MatriculaForm({ userInfo }) {
   const [showMaxCreditsReachedPopup, setShowMaxCreditsReachedPopup] =
     useState(false);
   const [maxCreditsPopupClosing, setMaxCreditsPopupClosing] = useState(false);
+
+  const [incompatibleGroups, setIncompatibleGroups] = useState([]);
 
   const [showIncompatibleHours, setShowIncompatibleHours] = useState(false);
   const [incompatibleHoursPopupClosing, setIncompatibleHoursPopupClosing] =
@@ -61,7 +63,7 @@ export function MatriculaForm({ userInfo }) {
         tanda: userInfo.tanda,
         selectedGroups: res.materiasList.map((m) => ({
           materiaId: m.id,
-          groupSelected: false,
+          selected: false,
         })),
       }));
     });
@@ -109,15 +111,18 @@ export function MatriculaForm({ userInfo }) {
           }}
           fnOnSubmit={(courseInfo, groupInfo) => {
             setGroupsPopupClosing(true);
+            const maxCreditsReached =
+              getCurrentCredits(infoMatricula) + courseInfo.creditos >
+              oferta.topeMaximoCreditos;
+            const incompatibleGroupsIdxs = getIncompatibleGroups(
+              groupInfo,
+              infoMatricula.selectedGroups
+            );
+            setIncompatibleGroups(incompatibleGroupsIdxs);
             if (groupInfo) {
-              if (
-                getCurrentCredits(infoMatricula) + courseInfo.creditos >
-                oferta.topeMaximoCreditos
-              ) {
+              if (maxCreditsReached) {
                 setShowMaxCreditsReachedPopup(true);
-              } else if (
-                isIncompatible(groupInfo, infoMatricula.selectedGroups)
-              ) {
+              } else if (incompatibleGroupsIdxs.length > 0) {
                 setShowIncompatibleHours(true);
               } else {
                 saveGroupSelection(
@@ -174,8 +179,16 @@ export function MatriculaForm({ userInfo }) {
         >
           <div className="popup__title">Horas incompatibles</div>
           <div className="popup__text">
-            No puedes matricular este grupo por cruce de horas, selecciona otro.
+            No puedes matricular este grupo porque existe conflicto con los
+            siguientes grupos elegidos:
           </div>
+          <Table
+            className="secondary-table transparent-table"
+            body={incompatibleGroups.map((groupIdx) => {
+              const group = infoMatricula.selectedGroups[groupIdx];
+              return [group.nombre, formatHorario(group.horario)];
+            })}
+          />
         </Popup>
       )}
       {showInvalidRegistration && (
@@ -250,7 +263,7 @@ export function MatriculaForm({ userInfo }) {
         className="secondary-table"
         head={["Materia", "Grupo", "Aula", "Horario"]}
         body={infoMatricula.selectedGroups
-          .filter((group) => group.groupSelected)
+          .filter((group) => group.selected)
           .map((group) => [
             group.nombre,
             group.numeroGrupo,
@@ -316,12 +329,6 @@ export function MatriculaForm({ userInfo }) {
   );
 }
 
-function formatSelectedGroup(group) {
-  return group && group.groupSelected
-    ? `${group.numeroGrupo} - ${formatHorario(group.horario)}`
-    : "Ninguno";
-}
-
 function clearSelectedGroups(infoMatricula, setInfoMatricula) {
   setInfoMatricula((prevInfo) => {
     const newSelectedGroups = infoMatricula.selectedGroups.map((group) => ({
@@ -344,14 +351,15 @@ function saveGroupSelection(
   let selection = {
     // groupInfo == null (eliminar grupo)
     materiaId: courseInfo.id,
-    groupSelected: false,
+    selected: false,
   };
 
   if (groupInfo !== null) {
     selection = {
       ...groupInfo,
-      groupSelected: true,
+      selected: true,
       nombre: courseInfo.nombre,
+      creditos: courseInfo.creditos,
     };
   }
 
@@ -380,41 +388,26 @@ function getCurrentCredits(infoMatricula) {
   return total;
 }
 
-function isIncompatible(groupInfo, selectedGroups) {
-  const posibleHorario = groupInfo.horario;
-  let incompatible = false;
-  selectedGroups.forEach((group) => {
-    if (group.horario) {
-      group.horario.forEach((schedule) => {
-        posibleHorario.forEach((posibleSchedule) => {
-          if (intersects(schedule, posibleSchedule)) {
-            incompatible = true;
+function getIncompatibleGroups(groupInfo, selectedGroups) {
+  const nuevosHorariosList = groupInfo.horario;
+  const incompatibleGroupsIdxs = [];
+
+  selectedGroups.forEach((group, groupIdx) => {
+    if (group.selected) {
+      group.horario.forEach((h) => {
+        nuevosHorariosList.forEach((newH) => {
+          if (intersects(h, newH)) {
+            incompatibleGroupsIdxs.push(groupIdx);
           }
         });
       });
     }
   });
-  return incompatible;
-}
-
-function intersects(hour0, hour1) {
-  const sameDay = hour0.diaSemana === hour1.diaSemana;
-  if (!sameDay) {
-    return false;
-  }
-  return (
-    (hour0.diaSemana === hour1.diaSemana &&
-      hour0.horaInicio < hour1.horaFin &&
-      hour0.horaInicio > hour1.horaInicio) ||
-    (hour0.horaFin < hour1.horaFin && hour0.horaFin > hour1.horaInicio) ||
-    hour0.horaInicio === hour1.horaInicio ||
-    hour0.horaFin === hour1.horaFin
-  );
+  return incompatibleGroupsIdxs;
 }
 
 function isRegistrationValid(infoMatricula) {
   return (
-    infoMatricula.selectedGroups.filter((group) => group.groupSelected).length >
-    0
+    infoMatricula.selectedGroups.filter((group) => group.selected).length > 0
   );
 }
