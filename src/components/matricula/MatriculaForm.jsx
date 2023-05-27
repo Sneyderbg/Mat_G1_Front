@@ -9,7 +9,7 @@ import {
   sendMatricula,
 } from "utils/CommonRequests";
 import { GroupSelection } from "components/matricula/GroupSelection";
-import { formatHorario } from "utils/Helpers";
+import { formatHorario, formatSelectedGroup, intersects } from "utils/Helpers";
 
 export function MatriculaForm({ userInfo }) {
   const [infoMatricula, setInfoMatricula] = useState({
@@ -409,24 +409,5 @@ function getIncompatibleGroups(groupInfo, selectedGroups) {
 function isRegistrationValid(infoMatricula) {
   return (
     infoMatricula.selectedGroups.filter((group) => group.selected).length > 0
-  );
-}
-
-export function formatSelectedGroup(group) {
-  return group && group.selected
-    ? `${group.numeroGrupo} - ${formatHorario(group.horario)}`
-    : "Ninguno";
-}
-
-export function intersects(hour0, hour1) {
-  const sameDay = hour0.diaSemana === hour1.diaSemana;
-  if (!sameDay) {
-    return false;
-  }
-  return (
-    (hour0.horaInicio < hour1.horaFin && hour0.horaInicio > hour1.horaInicio) ||
-    (hour0.horaFin < hour1.horaFin && hour0.horaFin > hour1.horaInicio) ||
-    hour0.horaInicio === hour1.horaInicio ||
-    hour0.horaFin === hour1.horaFin
   );
 }
