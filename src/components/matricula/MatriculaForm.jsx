@@ -86,7 +86,9 @@ export function MatriculaForm({ userInfo }) {
     () => (
       <MatriculaInfo
         maxCredits={oferta.topeMaximoCreditos}
-        fnGetCurrentCredits={() => getCurrentCredits(infoMatricula)}
+        fnGetCurrentCredits={() =>
+          getCurrentCredits(infoMatricula.selectedGroups)
+        }
         fnOnTimeFinished={() => {
           setShowTimeOutPopup(true);
         }}
@@ -111,15 +113,22 @@ export function MatriculaForm({ userInfo }) {
           }}
           fnOnSubmit={(courseInfo, groupInfo) => {
             setGroupsPopupClosing(true);
-            const maxCreditsReached =
-              getCurrentCredits(infoMatricula) + courseInfo.creditos >
-              oferta.topeMaximoCreditos;
-            const incompatibleGroupsIdxs = getIncompatibleGroups(
-              groupInfo,
-              infoMatricula.selectedGroups
-            );
-            setIncompatibleGroups(incompatibleGroupsIdxs);
+            setTimeout(() => {
+              setShowGroupsPopup(false);
+              setGroupsPopupClosing(false);
+            }, 300);
             if (groupInfo) {
+              const maxCreditsReached =
+                calculateNewCredits(
+                  courseInfo,
+                  groupInfo,
+                  infoMatricula.selectedGroups
+                ) > oferta.topeMaximoCreditos;
+              const incompatibleGroupsIdxs = getIncompatibleGroups(
+                groupInfo,
+                infoMatricula.selectedGroups
+              );
+              setIncompatibleGroups(incompatibleGroupsIdxs);
               if (maxCreditsReached) {
                 setShowMaxCreditsReachedPopup(true);
               } else if (incompatibleGroupsIdxs.length > 0) {
@@ -140,10 +149,6 @@ export function MatriculaForm({ userInfo }) {
                 setInfoMatricula
               );
             }
-            setTimeout(() => {
-              setShowGroupsPopup(false);
-              setGroupsPopupClosing(false);
-            }, 300);
           }}
         />
       )}
@@ -274,7 +279,7 @@ export function MatriculaForm({ userInfo }) {
       <div className="popup__text">
         <label>Créditos matriculados: </label>
         <label className="important-label">
-          {getCurrentCredits(infoMatricula)}
+          {getCurrentCredits(infoMatricula.selectedGroups)}
         </label>
       </div>
     </Popup>
@@ -333,7 +338,7 @@ function clearSelectedGroups(infoMatricula, setInfoMatricula) {
   setInfoMatricula((prevInfo) => {
     const newSelectedGroups = infoMatricula.selectedGroups.map((group) => ({
       materiaId: group.materiaId,
-      selectedGroup: false,
+      selected: false,
     }));
     return { ...prevInfo, selectedGroups: newSelectedGroups };
   });
@@ -377,8 +382,8 @@ function saveGroupSelection(
   }));
 }
 
-function getCurrentCredits(infoMatricula) {
-  const creditos = infoMatricula.selectedGroups
+function getCurrentCredits(selectedGroups) {
+  const creditos = selectedGroups
     .filter((group) => group.hasOwnProperty("creditos"))
     .map((group) => group.creditos);
   if (creditos.length === 0) {
@@ -386,6 +391,21 @@ function getCurrentCredits(infoMatricula) {
   }
   const total = creditos.reduce((prev, curr) => prev + curr);
   return total;
+}
+
+function calculateNewCredits(courseInfo, groupInfo, selectedGroups) {
+  let credits = getCurrentCredits(selectedGroups);
+  if (
+    selectedGroups.some(
+      (group) => group.materiaId === courseInfo.id && group.selected
+    )
+  ) {
+    // the group already exists
+    return credits;
+  }
+  credits += courseInfo.creditos;
+  console.log(credits);
+  return credits;
 }
 
 function getIncompatibleGroups(groupInfo, selectedGroups) {
